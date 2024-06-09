@@ -110,17 +110,34 @@ password = os.getenv('PASSWORD')
 # Initialize the GIS
 gis = GIS("https://www.arcgis.com", username, password)
 
-# Create a new WebMap
-webmap_obj = WebMap()
+# Check if the WebMap already exists
+existing_maps = gis.content.search(query=f'title:{county_name}', item_type='Web Map')
+if existing_maps:
+    webmap_obj = WebMap(existing_maps[0])
+else:
+    webmap_obj = WebMap()
 
 # Query and display features within the polygon
 for layer in tqdm(feature_layers, desc="Querying and adding layers"):
     try:
         result = layer.query(geometry_filter=intersects(extent_polygon))
-        webmap_obj.add_layer(layer)
+        if result.features:
+            webmap_obj.add_layer(layer)
+        else:
+            print(f"No features found in layer {layer.properties['name']}")
     except Exception as e:
         print(f"Error querying layer {layer.properties['name']}: {e}")
 
 # Save the WebMap
-webmap_item = webmap_obj.save({'title': 'Utility Layers WebMap', 'tags': 'utility, layers', 'snippet': 'WebMap containing utility layers'})
-print(f"WebMap created with ID: {webmap_item.id}")
+if existing_maps:
+    webmap_item = webmap_obj.update({'tags': 'utility, layers', 'snippet': 'Updated WebMap containing utility layers'})
+else:
+    webmap_item = webmap_obj.save({'title': county_name, 'tags': 'utility, layers', 'snippet': 'WebMap containing utility layers'})
+
+print(f"WebMap created or updated with ID: {webmap_item.id}")
+
+# Save the list of added layers with URLs
+with open('added_layers.json', 'w') as f:
+    json.dump(layers_for_webmap, f, indent=4)
+
+print("Added layers saved to added_layers.json")
