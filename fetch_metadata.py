@@ -4,6 +4,7 @@ import asyncio
 import json
 from tqdm import tqdm
 
+
 async def fetch_metadata(session, url):
     async with session.get(url) as response:
         if response.status == 200:
