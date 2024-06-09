@@ -11,7 +11,6 @@ import os
 import osmnx as ox
 import geopandas as gpd
 
-
 # Example list of utility-related keywords
 utility_keywords = [
     "diameter", "sewage", "sewer", "gas", "natural gas",
@@ -22,8 +21,7 @@ utility_keywords = [
     "broadband", "storm", "storm water", "waste water", "storm drain",
     "stormdrain", "drain", "pipes", "storm sewer",
     "catch basin", "manhole", "culvert", "outfall", "Hydrant",
-    "Valve",
-    "Booster", "Tank", "pipe",
+    "Valve", "Booster", "Tank", "pipe",
     "Reducer", "Cross Fittings", "Cleanout", "Pump", "Lampholes",
     "Manholes", "Force main", "Junction Box", "SepticTank",
     "Gravity Sewer", "Ejection Line", "Water Main"
@@ -44,7 +42,7 @@ def contains_keywords(text, keywords):
     return False
 
 # Function to search the metadata for keywords and filter by geometry type
-def search_metadata(service, keywords, geometry_types, extent_polygon):
+def search_metadata(service, keywords, geometry_types):
     if isinstance(service, dict) and (
         contains_keywords(service.get('layer_name', ''), keywords) or
         contains_keywords(service.get('description', ''), keywords) or
@@ -53,16 +51,9 @@ def search_metadata(service, keywords, geometry_types, extent_polygon):
         return service
     return None
 
-# Load metadata from file line by line
-services_metadata = []
+# Load metadata from file
 with open("services_metadata.json", 'r') as f:
-    for line in f:
-        line = line.strip()
-        if line:
-            try:
-                services_metadata.append(json.loads(line))
-            except json.JSONDecodeError:
-                pass  # Skip lines that cannot be parsed
+    services_metadata = json.load(f)
 
 # Define the place of interest
 county_name = "Los Angeles County, California, USA"
@@ -74,12 +65,11 @@ extent_polygon = Polygon(county_polygon.__geo_interface__)
 
 # Use tqdm to display progress when loading metadata
 print("Loading metadata...")
-services_metadata = tqdm(services_metadata, desc="Loading metadata")
 
 # Search the downloaded metadata for utility-related keywords and filter by geometry type and extent
 matching_services = []
 with ThreadPoolExecutor(max_workers=10) as executor:
-    futures = [executor.submit(search_metadata, service, utility_keywords, desired_geometry_types, extent_polygon) for service in services_metadata]
+    futures = [executor.submit(search_metadata, service, utility_keywords, desired_geometry_types) for service in services_metadata]
     for future in tqdm(as_completed(futures), total=len(futures), desc="Searching metadata"):
         result = future.result()
         if result:
@@ -128,10 +118,6 @@ for layer in tqdm(feature_layers, desc="Querying and adding layers"):
     try:
         result = layer.query(geometry_filter=intersects(extent_polygon))
         webmap_obj.add_layer(layer)
-      #  if result.features:
-       #     webmap_obj.add_layer(layer)
-        #else:
-         #   print(f"No features found in layer {layer.properties['name']}")
     except Exception as e:
         print(f"Error querying layer {layer.properties['name']}: {e}")
 
