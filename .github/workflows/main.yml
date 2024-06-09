@@ -45,7 +45,7 @@ jobs:
         run: |
           python fetch_metadata.py
 
-      - name: Upload layers to ArcGIS
+      - name: Upload layers to webmap
         run: |
           python upload_layers.py
 
@@ -55,7 +55,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git pull origin main  # Pull the latest changes
-          git add .
-          git commit -m 'Update metadata'
+          git add services_metadata.json processed_servers.txt
+          git commit -m 'Update metadata and processed servers'
+          git pull --rebase origin main
           git push origin main
