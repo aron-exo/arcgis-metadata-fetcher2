@@ -4,7 +4,6 @@ import asyncio
 import json
 from tqdm import tqdm
 
-
 async def fetch_metadata(server):
     """
     Fetch metadata from a given server.
