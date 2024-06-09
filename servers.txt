@@ -1,2 +1,1 @@
-https://gisapps.glendaleca.gov//arcgis/rest/services/
-https://services5.arcgis.com//FDIcdEEqy1cBDX8N/arcgis/rest/services/
+https://www.arcgis.com/apps/mapviewer/index.html?layers=8e48e73258b34ca5a92b4d9db07f5002
