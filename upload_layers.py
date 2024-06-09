@@ -44,10 +44,11 @@ def contains_keywords(text, keywords):
 
 # Function to search the metadata for keywords and filter by geometry type
 def search_metadata(service, keywords, geometry_types, extent_polygon):
-    if (contains_keywords(service.get('layer_name', ''), keywords) or
+    if isinstance(service, dict) and (
+        contains_keywords(service.get('layer_name', ''), keywords) or
         contains_keywords(service.get('description', ''), keywords) or
-        any(contains_keywords(field, keywords) for field in service.get('fields', []))) and \
-        service.get('geometry_type') in geometry_types:
+        any(contains_keywords(field, keywords) for field in service.get('fields', []))
+    ) and service.get('geometry_type') in geometry_types:
         return service
     return None
 
@@ -56,7 +57,7 @@ services_metadata = []
 with open("services_metadata.json", 'r') as f:
     for line in f:
         line = line.strip()
-        if line:  # Skip empty lines
+        if line:
             try:
                 services_metadata.append(json.loads(line))
             except json.JSONDecodeError:
