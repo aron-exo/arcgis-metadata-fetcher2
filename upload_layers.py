@@ -1,17 +1,18 @@
-import os
-import aiohttp
-import asyncio
 import json
+import re
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from arcgis.gis import GIS
+from arcgis.geometry import Geometry, Polygon, project
 from arcgis.features import FeatureLayer
-from arcgis.geometry import Geometry, Polygon
+from arcgis.gis import GIS
+from arcgis.geometry.filters import intersects
+
 
 # Initialize the GIS
 gis = GIS("https://www.arcgis.com", os.getenv('USERNAME'), os.getenv('PASSWORD'))
 
-# List of utility-related keywords
+
+# Example list of utility-related keywords
 utility_keywords = [
     "diameter", "sewage", "sewer", "gas", "natural gas",
     "electric", "electricity", "power", "sanitation",
@@ -21,13 +22,14 @@ utility_keywords = [
     "broadband", "storm", "storm water", "waste water", "storm drain",
     "stormdrain", "drain",  "pipes", "storm sewer",
     "catch basin", "manhole", "culvert", "outfall", "Hydrant",
-    "Valve", "Booster", "Tank", "pipe",
+    "Valve",
+    "Booster", "Tank","pipe",
     "Reducer", "Cross Fittings", "Cleanout", "Pump", "Lampholes",
     "Manholes", "Force main", "Junction Box", "SepticTank",
     "Gravity Sewer", "Ejection Line", "Water Main"
 ]
 
-# Desired geometry types
+# List of desired geometry types
 desired_geometry_types = ['esriGeometryPolyline', 'esriGeometryPoint', 'esriGeometryMultipoint', 'esriGeometryLine']
 
 # Function to search for keywords in text
@@ -50,12 +52,14 @@ def search_metadata(service, keywords, geometry_types, extent_polygon):
         return service
     return None
 
-# Load metadata from file
-with open('services_metadata.json', 'r') as f:
-    services_metadata = json.load(f)
+# Load metadata from file line by line
+services_metadata = []
+with open("services_metadata.json", 'r') as f:
+    for line in f:
+        services_metadata.append(json.loads(line))
 
-# Extent polygon for filtering (Los Angeles County in this case)
-extent_polygon = ...  # Define your extent polygon here
+# Assuming your polygon and spatial reference are defined
+extent_polygon = geom1_reprojected
 
 # Use tqdm to display progress when loading metadata
 print("Loading metadata...")
@@ -93,14 +97,26 @@ for layer in tqdm(layers_for_webmap, desc="Creating FeatureLayer objects"):
     feature_layer = FeatureLayer(layer['url'])
     feature_layers.append(feature_layer)
 
-# Add and update layers in the web map
-webmap_obj = ...  # Define your webmap object here
+# Now `feature_layers` contains the FeatureLayer objects
+print("Feature Layers:")
+for layer in feature_layers:
+    print(layer)
+
+# Replace the placeholders with your own variables
+username = os.getenv('USERNAME')
+password = os.getenv('PASSWORD')
+webmap_id = 'your_webmap_id_here'
+
+# Initialize the GIS
+webmap_obj = gis.content.get(webmap_id)
+
+# Remove existing layers except for 'Sketch'
 layers_to_remove = [webmap_obj.layers[i] for i in range(len(webmap_obj.layers)) if (webmap_obj.layers[i]['title'] not in ['Sketch'])]
-for i in tqdm(range(len(layers_to_remove))):
+for i in tqdm(range(len(layers_to_remove)), desc="Removing layers"):
     webmap_obj.remove_layer(layers_to_remove[i])
 
 # Query and display features within the polygon
-for layer in tqdm(feature_layers):
+for layer in tqdm(feature_layers, desc="Querying and adding layers"):
     try:
         result = layer.query(geometry_filter=intersects(extent_polygon))
         if result.features:
@@ -111,3 +127,4 @@ for layer in tqdm(feature_layers):
         print(f"Error querying layer {layer.properties['name']}: {e}")
 
 webmap_obj.update()
+
