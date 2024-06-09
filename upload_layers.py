@@ -68,7 +68,8 @@ with open('services_metadata.json', 'r') as f:
 
 # Assuming your polygon and spatial reference are defined as LA County boundaries
 county_name = "Los Angeles County, California, USA"
-gis = GIS("https://www.arcgis.com", "username", "password")
+# Initialize the GIS
+gis = GIS("https://www.arcgis.com", os.getenv('USERNAME'), os.getenv('PASSWORD'))
 county_gdf = ox.geocode_to_gdf(county_name)
 county_polygon = county_gdf.loc[0, 'geometry']
 extent_polygon = Polygon(county_polygon.__geo_interface__)
