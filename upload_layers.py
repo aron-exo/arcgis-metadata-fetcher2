@@ -1,40 +1,37 @@
+import os
+import aiohttp
+import asyncio
 import json
-import re
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from arcgis.features import FeatureLayer
-from arcgis.geometry import Geometry, Polygon, project
 from arcgis.gis import GIS
-import os
-import osmnx as ox
+from arcgis.features import FeatureLayer
+from arcgis.geometry import Geometry, Polygon
 
-# Example list of utility-related keywords
+# Initialize the GIS
+gis = GIS("https://www.arcgis.com", os.getenv('USERNAME'), os.getenv('PASSWORD'))
+
+# List of utility-related keywords
 utility_keywords = [
-    "diameter", "sewage", "sewer", "gas", "natural gas","electric", "electricity", "power", "sanitation",
+    "diameter", "sewage", "sewer", "gas", "natural gas",
+    "electric", "electricity", "power", "sanitation",
     "wastewater", "drainage", "fuel", "pipeline",
     "grid", "distribution", "transmission",
     "telecom", "telecommunications", "fiber", "internet",
     "broadband", "storm", "storm water", "waste water", "storm drain",
-    "stormdrain", "drain", "pipes", "storm sewer",
+    "stormdrain", "drain",  "pipes", "storm sewer",
     "catch basin", "manhole", "culvert", "outfall", "Hydrant",
-    "Valve", "Booster", "Tank", "pipe", "Reducer", "Cross Fittings", "Cleanout", "Pump", "Lampholes",
-    "Manholes", "Force main", "Junction Box", "SepticTank", "Gravity Sewer", "Ejection Line", "Water Main"
+    "Valve", "Booster", "Tank", "pipe",
+    "Reducer", "Cross Fittings", "Cleanout", "Pump", "Lampholes",
+    "Manholes", "Force main", "Junction Box", "SepticTank",
+    "Gravity Sewer", "Ejection Line", "Water Main"
 ]
 
-# List of desired geometry types
+# Desired geometry types
 desired_geometry_types = ['esriGeometryPolyline', 'esriGeometryPoint', 'esriGeometryMultipoint', 'esriGeometryLine']
 
+# Function to search for keywords in text
 def contains_keywords(text, keywords):
-    """
-    Check if the given text contains any of the specified keywords.
-
-    Args:
-        text (str): The text to search.
-        keywords (list): A list of keywords to search for.
-
-    Returns:
-        bool: True if any keyword is found in the text, False otherwise.
-    """
     if not text:
         return False
     text = text.lower()
@@ -44,19 +41,8 @@ def contains_keywords(text, keywords):
             return True
     return False
 
+# Function to search the metadata for keywords and filter by geometry type
 def search_metadata(service, keywords, geometry_types, extent_polygon):
-    """
-    Search the metadata for utility-related keywords and filter by geometry type.
-
-    Args:
-        service (dict): The service metadata.
-        keywords (list): A list of utility-related keywords.
-        geometry_types (list): A list of desired geometry types.
-        extent_polygon (Polygon): The extent polygon for filtering.
-
-    Returns:
-        dict or None: The filtered service metadata if it matches the criteria, None otherwise.
-    """
     if (contains_keywords(service.get('layer_name', ''), keywords) or
         contains_keywords(service.get('description', ''), keywords) or
         any(contains_keywords(field, keywords) for field in service.get('fields', []))) and \
@@ -68,13 +54,8 @@ def search_metadata(service, keywords, geometry_types, extent_polygon):
 with open('services_metadata.json', 'r') as f:
     services_metadata = json.load(f)
 
-# Assuming your polygon and spatial reference are defined as LA County boundaries
-county_name = "Los Angeles County, California, USA"
-# Initialize the GIS
-gis = GIS("https://www.arcgis.com", os.getenv('USERNAME'), os.getenv('PASSWORD'))
-county_gdf = ox.geocode_to_gdf(county_name)
-county_polygon = county_gdf.loc[0, 'geometry']
-extent_polygon = Polygon(county_polygon.__geo_interface__)
+# Extent polygon for filtering (Los Angeles County in this case)
+extent_polygon = ...  # Define your extent polygon here
 
 # Use tqdm to display progress when loading metadata
 print("Loading metadata...")
@@ -89,10 +70,6 @@ with ThreadPoolExecutor(max_workers=10) as executor:
         if result:
             matching_services.append(result)
 
-# Save metadata as it goes along
-with open('filtered_metadata.json', 'w') as f:
-    json.dump([], f)  # Initialize the file with an empty list
-
 # Use tqdm to display progress when saving layers
 print("Saving matching layers...")
 layers_for_webmap = []
@@ -103,11 +80,6 @@ for service in tqdm(matching_services, desc="Saving layers"):
         'type': 'FeatureLayer'
     }
     layers_for_webmap.append(layer_info)
-    with open('filtered_metadata.json', 'r+') as f:
-        data = json.load(f)
-        data.append(service)
-        f.seek(0)
-        json.dump(data, f, indent=4)
 
 # Display the matching services
 print("Matching Services:")
@@ -121,12 +93,8 @@ for layer in tqdm(layers_for_webmap, desc="Creating FeatureLayer objects"):
     feature_layer = FeatureLayer(layer['url'])
     feature_layers.append(feature_layer)
 
-# Now `feature_layers` contains the FeatureLayer objects
-print("Feature Layers:")
-for layer in feature_layers:
-    print(layer) 
-
-# Remove non-Sketch layers from the webmap
+# Add and update layers in the web map
+webmap_obj = ...  # Define your webmap object here
 layers_to_remove = [webmap_obj.layers[i] for i in range(len(webmap_obj.layers)) if (webmap_obj.layers[i]['title'] not in ['Sketch'])]
 for i in tqdm(range(len(layers_to_remove))):
     webmap_obj.remove_layer(layers_to_remove[i])
