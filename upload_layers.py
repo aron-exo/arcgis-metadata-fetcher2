@@ -6,6 +6,7 @@ from arcgis.features import FeatureLayer
 from arcgis.geometry import Geometry, Polygon, project
 from arcgis.gis import GIS
 import os
+import osmnx as ox
 
 # Example list of utility-related keywords
 utility_keywords = [
