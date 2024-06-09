@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from arcgis.features import FeatureLayer
 from arcgis.geometry import Geometry, Polygon, project
 from arcgis.gis import GIS
+import os
 
 # Example list of utility-related keywords
 utility_keywords = [
