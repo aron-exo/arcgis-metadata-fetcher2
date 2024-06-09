@@ -3,7 +3,6 @@ import aiohttp
 import asyncio
 import json
 from tqdm import tqdm
-from multiprocessing import Pool, cpu_count
 from urllib.parse import urljoin
 
 async def fetch_metadata(session, url):
@@ -91,6 +90,8 @@ async def process_service(session, server, service):
     service_url = urljoin(server, f"{service['name']}/{service['type']}")
     print(f"Fetching service layers from: {service_url}")
     layers = await get_service_layers(session, service_url)
+    if not layers:
+        print(f"No layers found in service: {service_url}")
     for layer_url in tqdm(layers, desc=f"Fetching layers from {service_url}"):
         metadata = await get_layer_metadata(session, layer_url)
         service_metadata.append(metadata)
