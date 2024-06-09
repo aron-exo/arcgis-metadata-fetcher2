@@ -112,7 +112,7 @@ gis = GIS("https://www.arcgis.com", username, password)
 
 # Check if the WebMap already exists
 existing_maps = gis.content.search(query=f'title:{county_name}', item_type='Web Map')
-if existing_maps:
+if existing_maps and existing_maps[0].owner == gis.users.me.username:
     webmap_obj = WebMap(existing_maps[0])
 else:
     webmap_obj = WebMap()
@@ -121,15 +121,12 @@ else:
 for layer in tqdm(feature_layers, desc="Querying and adding layers"):
     try:
         result = layer.query(geometry_filter=intersects(extent_polygon))
-        if result.features:
-            webmap_obj.add_layer(layer)
-        else:
-            print(f"No features found in layer {layer.properties['name']}")
+        webmap_obj.add_layer(layer)
     except Exception as e:
         print(f"Error querying layer {layer.properties['name']}: {e}")
 
 # Save the WebMap
-if existing_maps:
+if existing_maps and existing_maps[0].owner == gis.users.me.username:
     webmap_item = webmap_obj.update({'tags': 'utility, layers', 'snippet': 'Updated WebMap containing utility layers'})
 else:
     webmap_item = webmap_obj.save({'title': county_name, 'tags': 'utility, layers', 'snippet': 'WebMap containing utility layers'})
