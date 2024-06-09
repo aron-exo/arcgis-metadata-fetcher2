@@ -16,8 +16,7 @@ utility_keywords = [
     "broadband", "storm", "storm water", "waste water", "storm drain",
     "stormdrain", "drain", "pipes", "storm sewer",
     "catch basin", "manhole", "culvert", "outfall", "Hydrant",
-    "Valve", "Booster", "Tank", "pipe",
-    "Reducer", "Cross Fittings", "Cleanout", "Pump", "Lampholes",
+    "Valve", "Booster", "Tank", "pipe", "Reducer", "Cross Fittings", "Cleanout", "Pump", "Lampholes",
     "Manholes", "Force main", "Junction Box", "SepticTank", "Gravity Sewer", "Ejection Line", "Water Main"
 ]
 
