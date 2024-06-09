@@ -51,7 +51,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git add services_metadata.json processed_servers.txt
-          git commit -m 'Update metadata and processed servers'
-          git pull --rebase origin main
+          git pull origin main
+          git add services_metadata.json added_layers.json
+          git commit -m 'Update metadata and added layers'
           git push origin main
