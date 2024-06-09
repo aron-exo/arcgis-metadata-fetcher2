@@ -2,16 +2,14 @@ import json
 import re
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from arcgis.geometry import Geometry, Polygon, project
-from arcgis.features import FeatureLayer
 from arcgis.gis import GIS
+from arcgis.geometry import Polygon
+from arcgis.features import FeatureLayer
+from arcgis.mapping import WebMap
 from arcgis.geometry.filters import intersects
 import os
-
-
-# Initialize the GIS
-gis = GIS("https://www.arcgis.com", os.getenv('USERNAME'), os.getenv('PASSWORD'))
-
+import osmnx as ox
+import geopandas as gpd
 
 # Example list of utility-related keywords
 utility_keywords = [
@@ -57,10 +55,17 @@ def search_metadata(service, keywords, geometry_types, extent_polygon):
 services_metadata = []
 with open("services_metadata.json", 'r') as f:
     for line in f:
-        services_metadata.append(json.loads(line))
+        line = line.strip()
+        if line:  # Skip empty lines
+            services_metadata.append(json.loads(line))
 
-# Assuming your polygon and spatial reference are defined
-extent_polygon = geom1_reprojected
+# Define the place of interest
+county_name = "Los Angeles County, California, USA"
+
+# Get the boundary of Los Angeles County
+county_gdf = ox.geocode_to_gdf(county_name)
+county_polygon = county_gdf.loc[0, 'geometry']
+extent_polygon = Polygon(county_polygon.__geo_interface__)
 
 # Use tqdm to display progress when loading metadata
 print("Loading metadata...")
@@ -106,15 +111,12 @@ for layer in feature_layers:
 # Replace the placeholders with your own variables
 username = os.getenv('USERNAME')
 password = os.getenv('PASSWORD')
-webmap_id = 'your_webmap_id_here'
 
 # Initialize the GIS
-webmap_obj = gis.content.get(webmap_id)
+gis = GIS("https://www.arcgis.com", username, password)
 
-# Remove existing layers except for 'Sketch'
-layers_to_remove = [webmap_obj.layers[i] for i in range(len(webmap_obj.layers)) if (webmap_obj.layers[i]['title'] not in ['Sketch'])]
-for i in tqdm(range(len(layers_to_remove)), desc="Removing layers"):
-    webmap_obj.remove_layer(layers_to_remove[i])
+# Create a new WebMap
+webmap_obj = WebMap()
 
 # Query and display features within the polygon
 for layer in tqdm(feature_layers, desc="Querying and adding layers"):
@@ -127,5 +129,6 @@ for layer in tqdm(feature_layers, desc="Querying and adding layers"):
     except Exception as e:
         print(f"Error querying layer {layer.properties['name']}: {e}")
 
-webmap_obj.update()
-
+# Save the WebMap
+webmap_item = webmap_obj.save({'title': 'Utility Layers WebMap', 'tags': 'utility, layers', 'snippet': 'WebMap containing utility layers'})
+print(f"WebMap created with ID: {webmap_item.id}")
