@@ -127,10 +127,11 @@ webmap_obj = WebMap()
 for layer in tqdm(feature_layers, desc="Querying and adding layers"):
     try:
         result = layer.query(geometry_filter=intersects(extent_polygon))
-        if result.features:
-            webmap_obj.add_layer(layer)
-        else:
-            print(f"No features found in layer {layer.properties['name']}")
+        webmap_obj.add_layer(layer)
+      #  if result.features:
+       #     webmap_obj.add_layer(layer)
+        #else:
+         #   print(f"No features found in layer {layer.properties['name']}")
     except Exception as e:
         print(f"Error querying layer {layer.properties['name']}: {e}")
 
