@@ -87,7 +87,7 @@ async def process_service(session, server, service):
         list: A list of metadata dictionaries for each layer.
     """
     service_metadata = []
-    service_url = urljoin(server, f"{service['name']}/{service['type']}")
+    service_url = urljoin(server, f"services/{service['name']}/{service['type']}")
     print(f"Fetching service layers from: {service_url}")
     layers = await get_service_layers(session, service_url)
     if not layers:
