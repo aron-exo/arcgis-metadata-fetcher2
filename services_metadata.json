@@ -42,4 +42,4 @@
         "geometry_type": "esriGeometryPolygon",
         "url": "https://gisapps.glendaleca.gov//arcgis/rest/services/SampleWorldCities/MapServer/2?f=json"
     }
-]
+]{"currentVersion": 10.81, "folders": ["Common", "PW_IntegratedWaste", "Utilities"], "services": [{"name": "SampleWorldCities", "type": "MapServer"}]}
