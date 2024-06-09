@@ -37,10 +37,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Search for servers
+      - name: Fetch metadata
         run: |
-          python search_servers.py
-
+          python fetch_metadata.py
+          
       - name: Commit and push changes
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
