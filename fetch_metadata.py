@@ -4,7 +4,7 @@ import asyncio
 import json
 from tqdm import tqdm
 from multiprocessing import Pool, cpu_count
-from urllib.parse import urljoin, urlparse, urlunparse
+from urllib.parse import urljoin
 
 # Function to get the list of folders and services
 async def get_folders_and_services(session, base_url):
@@ -77,7 +77,7 @@ async def download_service_metadata(session, server, service):
     print(f"Fetching service layers from: {service_url}")
     layers = await get_service_layers(session, service_url)
     all_layers = await fetch_all_layers(session, service_url, layers)
-    for layer_url in all_layers:
+    for layer_url in tqdm(all_layers, desc=f"Fetching layers from {service_url}"):
         try:
             metadata = await get_layer_metadata(session, layer_url)
             service_metadata.append(metadata)
