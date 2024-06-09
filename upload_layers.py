@@ -19,10 +19,10 @@ utility_keywords = [
     "grid", "distribution", "transmission",
     "telecom", "telecommunications", "fiber", "internet",
     "broadband", "storm", "storm water", "waste water", "storm drain",
-    "stormdrain", "drain",  "pipes", "storm sewer",
+    "stormdrain", "drain", "pipes", "storm sewer",
     "catch basin", "manhole", "culvert", "outfall", "Hydrant",
     "Valve",
-    "Booster", "Tank","pipe",
+    "Booster", "Tank", "pipe",
     "Reducer", "Cross Fittings", "Cleanout", "Pump", "Lampholes",
     "Manholes", "Force main", "Junction Box", "SepticTank",
     "Gravity Sewer", "Ejection Line", "Water Main"
@@ -57,7 +57,10 @@ with open("services_metadata.json", 'r') as f:
     for line in f:
         line = line.strip()
         if line:  # Skip empty lines
-            services_metadata.append(json.loads(line))
+            try:
+                services_metadata.append(json.loads(line))
+            except json.JSONDecodeError:
+                pass  # Skip lines that cannot be parsed
 
 # Define the place of interest
 county_name = "Los Angeles County, California, USA"
