@@ -1,0 +1,45 @@
+[
+    {
+        "layer_name": "Cities",
+        "fields": [
+            "OBJECTID",
+            "Shape",
+            "CITY_NAME",
+            "POP",
+            "POP_RANK",
+            "POP_CLASS",
+            "LABEL_FLAG"
+        ],
+        "description": "",
+        "geometry_type": "esriGeometryPoint",
+        "url": "https://gisapps.glendaleca.gov//arcgis/rest/services/SampleWorldCities/MapServer/0?f=json"
+    },
+    {
+        "layer_name": "Continent",
+        "fields": [
+            "OBJECTID",
+            "Shape",
+            "CONTINENT",
+            "SQMI",
+            "SQKM",
+            "Shape_Length",
+            "Shape_Area"
+        ],
+        "description": "",
+        "geometry_type": "esriGeometryPolygon",
+        "url": "https://gisapps.glendaleca.gov//arcgis/rest/services/SampleWorldCities/MapServer/1?f=json"
+    },
+    {
+        "layer_name": "World",
+        "fields": [
+            "OBJECTID",
+            "Shape",
+            "WRLD30_ID",
+            "Shape_Length",
+            "Shape_Area"
+        ],
+        "description": "",
+        "geometry_type": "esriGeometryPolygon",
+        "url": "https://gisapps.glendaleca.gov//arcgis/rest/services/SampleWorldCities/MapServer/2?f=json"
+    }
+]
