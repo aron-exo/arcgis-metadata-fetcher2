@@ -6,6 +6,7 @@ from arcgis.geometry import Geometry, Polygon, project
 from arcgis.features import FeatureLayer
 from arcgis.gis import GIS
 from arcgis.geometry.filters import intersects
+import os
 
 
 # Initialize the GIS
