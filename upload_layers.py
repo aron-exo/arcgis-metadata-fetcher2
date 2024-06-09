@@ -8,8 +8,7 @@ from arcgis.gis import GIS
 
 # Example list of utility-related keywords
 utility_keywords = [
-    "diameter", "sewage", "sewer", "gas", "natural gas",
-    "electric", "electricity", "power", "sanitation",
+    "diameter", "sewage", "sewer", "gas", "natural gas","electric", "electricity", "power", "sanitation",
     "wastewater", "drainage", "fuel", "pipeline",
     "grid", "distribution", "transmission",
     "telecom", "telecommunications", "fiber", "internet",
