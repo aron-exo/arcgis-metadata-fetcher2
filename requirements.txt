@@ -1,0 +1,7 @@
+arcgis
+aiohttp
+tqdm
+osmnx
+geopandas
+numpy
+shapely
