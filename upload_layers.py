@@ -18,7 +18,7 @@ utility_keywords = [
     "electric", "electricity", "power", "sanitation",
     "wastewater", "drainage", "fuel", "pipeline",
     "grid", "distribution", "transmission",
-    "telecom", "telecommunications", "fiber", "internet",
+    "telecom", "telecommunications", "fiber",
     "broadband", "storm", "storm water", "waste water", "storm drain",
     "stormdrain", "drain", "pipes", "storm sewer",
     "catch basin", "manhole", "culvert", "outfall", "Hydrant",
@@ -114,7 +114,10 @@ gis = GIS("https://www.arcgis.com", username, password)
 # Check if the WebMap already exists
 existing_maps = gis.content.search(query=f'title:{county_name}', item_type='Web Map')
 if existing_maps and existing_maps[0].owner == gis.users.me.username:
-    webmap_obj = WebMap(existing_maps[0])
+    webmap_item = existing_maps[0]
+    webmap_obj = WebMap(webmap_item)
+    # Remove all existing layers
+    webmap_obj.remove_layers()
 else:
     webmap_obj = WebMap()
 
