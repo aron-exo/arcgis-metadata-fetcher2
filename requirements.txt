@@ -5,3 +5,4 @@ osmnx
 geopandas
 numpy
 shapely
+psycopg2
