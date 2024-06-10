@@ -1,72 +1,142 @@
 [
     {
-        "title": "FDIC_Insured_Banks",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/FDIC_InsuredBanks/FeatureServer/0",
+        "title": "RWMainLineOnli_ExportFeature",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/17",
         "type": "FeatureLayer"
     },
     {
-        "title": "SouthDakotaSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/South_Dakota_NonNative_Species_and_Counts/FeatureServer/0",
+        "title": "RWMinorLateral_ExportFeature",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/16",
         "type": "FeatureLayer"
     },
     {
-        "title": "ArkansasSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Arkansas_NonNative_Species_and_Counts/FeatureServer/0",
+        "title": "Above_Ground_LNG_Storage_Facilities",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Above_Ground_LNG_Storage_Facilities_gdb/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
-        "title": "ET_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/ET_(broadband)/FeatureServer/0",
+        "title": "RW_MainLine",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/15",
         "type": "FeatureLayer"
     },
     {
-        "title": "ArizonaSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Arizona_NonNative_Species_and_Counts/FeatureServer/0",
+        "title": "RW_MajorLateralLines",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/14",
         "type": "FeatureLayer"
     },
     {
-        "title": "Electric_Power_Transmission_Lines",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Electric_Power_Transmission_Lines/FeatureServer/0",
+        "title": "RW_MinorLateralLines",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/13",
         "type": "FeatureLayer"
     },
     {
-        "title": "IdahoSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Idaho_NonNative_Species_and_Counts/FeatureServer/0",
+        "title": "Electrical Manholes",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/Tulare_Electrical_Manholes/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
-        "title": "StateSpecies_Group3",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/StateSpecies_Group3/FeatureServer/0",
+        "title": "Manholes",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/LACSD_SewerSystem/FeatureServer/1",
         "type": "FeatureLayer"
     },
     {
-        "title": "POL_Terminals",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Petroleum_Terminals_1/FeatureServer/0",
+        "title": "Facilities",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/LACSD_SewerSystem/FeatureServer/2",
         "type": "FeatureLayer"
     },
     {
-        "title": "Hydrocarbon_Gas_Liquid_Pipelines",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Hydrocarbon_Gas_Liquid_Pipelines/FeatureServer/0",
+        "title": "Traction Power Substation (TPSS)",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/High_Speed_Rail_and_High_Desert_Corridor_Project__2013_2014_Data/FeatureServer/6",
         "type": "FeatureLayer"
     },
     {
-        "title": "Petroleum_Ports",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Petroleum_Ports/FeatureServer/0",
+        "title": "Active_Construction_Lines_Populated",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/Active_Construction_Lines_Populated/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
-        "title": "NorthDakotaSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/North_Dakota_NonNative_Species_and_Counts/FeatureServer/0",
+        "title": "SewersInDesign_Points",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/Active_Construction_Projects/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
-        "title": "NorthCarolinaSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/North_Carolina_NonNative_Species_and_Counts/FeatureServer/0",
+        "title": "Active_Construction_Points_Populated",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/Active_Construction_Points_Populated/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
-        "title": "Peak_Shaving_Facilities",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Peak_Shaving_Facilities_gdb/FeatureServer/0",
+        "title": "Industrial Waste Lines",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/12",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Sewer Lines",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/11",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Sewer Lines",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/10",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Electric Structures",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/7",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Gas Structures",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/6",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Fire Water Devices",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/4",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Storm Drain Structures",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/2",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Sewer Structures",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Sewer Pipe",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/High_Desert_Corridor_Freeway_Project/FeatureServer/7",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Existing_Recycled_Water_Lines",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WaterReuse_WFL/FeatureServer/1",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "ManholesRefined",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/ManholesRefined/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Manholes_Depth",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/Manholes_Depth/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Local Pipes",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/LACSD_SewerSystem/FeatureServer/3",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Pipes",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/LACSD_SewerSystem/FeatureServer/4",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "JWPCP_Brine_Dischargers",
+        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/JWPCP Brine Dischargers/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
@@ -80,23 +150,8 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "PE_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/PE_(broadband)/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
         "title": "Yard Piping Lines",
         "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/20",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Transmission_Lines",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Transmission_Lines/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Paging_Transmission_Towers",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Paging_Transmission_Towers/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
@@ -110,28 +165,8 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "NM_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/NM_(broadband)/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "ColoradoSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Colorado_NonNative_Species_and_Counts/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
         "title": "Potable Water Lines",
         "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/16",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "StateSpecies_Group2",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/StateSpecies_Group2/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Broadband_Radio_Service_(BRS)_and_Educational_Broadband_Service_(EBS)_Transmitters",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Broadband_Radio_Service_(BRS)_and_Educational_Broadband_Service_(EBS)_Transmitters/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
@@ -142,11 +177,6 @@
     {
         "title": "Reclaimed Water Lines",
         "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/14",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Outer_Continental_Shelf_(OCS)_Oil_and_Natural_Gas_Wells",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Outer_Continental_Shelf_(OCS)_Oil_and_Natural_Gas_Wells/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
@@ -175,11 +205,6 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "Mussel_Occurrence_Locations",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Mussel_Occurrence_Locations/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
         "title": "RW_FireServiceConnection",
         "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/7",
         "type": "FeatureLayer"
@@ -190,23 +215,8 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "SewersInDesign_Points",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/Active_Construction_Projects/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
         "title": "RW_Reservoir",
         "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/4",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "SSIP",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/SSIP/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Sewer Pipe",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/High_Desert_Corridor_Freeway_Project/FeatureServer/7",
         "type": "FeatureLayer"
     },
     {
@@ -225,38 +235,8 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "Active_Construction_Lines_Populated",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/Active_Construction_Lines_Populated/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
         "title": "RW_Well",
         "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Active_Construction_Points_Populated",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/Active_Construction_Points_Populated/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Seismic_Station_Compilation_NoVs30Measurement",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Seismic_Station_Compilation_NoVs30Measurement/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "SLU_(broadband)_Station_SLU",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/SLU_(broadband)_Station_SLU/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Seismic_Station_Compilation_forGISImport",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Seismic_Station_Compilation_forGISImport/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Seismic_Station_Compilation",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Seismic_Station_Compilation/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
@@ -270,16 +250,6 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "Facilities",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/LACSD_SewerSystem/FeatureServer/2",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "ManholesRefined",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/ManholesRefined/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
         "title": "AlaskaSpeciesandCounts",
         "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Alaska_NonNative_Species_and_Counts/FeatureServer/0",
         "type": "FeatureLayer"
@@ -290,53 +260,8 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "Manholes_Depth",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/Manholes_Depth/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
         "title": "AlabamaSpeciesandCounts",
         "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Alabama_Species_and_Counts/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "US_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/US_(broadband)/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "POL_Terminals",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/POL_Terminals/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Local Pipes",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/LACSD_SewerSystem/FeatureServer/3",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "POL_Pumping_Station",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/POL_Pumping_Stations/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Manholes",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/LACSD_SewerSystem/FeatureServer/1",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Pipes",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/LACSD_SewerSystem/FeatureServer/4",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Power_Plants",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Plants_gdb/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Traction Power Substation (TPSS)",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/High_Speed_Rail_and_High_Desert_Corridor_Project__2013_2014_Data/FeatureServer/6",
         "type": "FeatureLayer"
     },
     {
@@ -345,163 +270,23 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "Planned transmission line ",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Planned_transmission_line_/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "JWPCP_Brine_Dischargers",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/JWPCP Brine Dischargers/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Natural_Gas_Storage_Facilities",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_GasFacities_gdb/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "IU_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/IU_(broadband)/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Natural_Gas_Processing_Plants",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_Gas_Processing_Plants/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Natural_Gas_Market_Hubs",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_Gas_Market_Hubs/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "IowaSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Iowa_NonNative_Species_and_Counts/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "NW_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/NW_(broadband)/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Natural_Gas_Pipelines",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_Gas_Liquid_Pipelines/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Natural_Gas_Import_Export",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_Gas_Import_Export/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "NaturalGasCompressorStations",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_Gas_Compressor_Stations/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "IndianaSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Indiana_NonNative_Species_and_Counts/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "RWMainLineOnli_ExportFeature",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/17",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Above_Ground_LNG_Storage_Facilities",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Above_Ground_LNG_Storage_Facilities_gdb/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "RWMinorLateral_ExportFeature",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/16",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "WestVirginiaSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/West_Virginia_NonNative_Species_and_Counts/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "RW_MainLine",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/15",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "RW_MajorLateralLines",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/14",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "StateCapitolsforUS",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/StateCapitolBuildings/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "N4_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/N4_(broadband)/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "RW_MinorLateralLines",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WVWDAGOL/FeatureServer/13",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Public Refrigerated Warehouses",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Public_Refrigerated_Warehouses/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Electrical Manholes",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/Tulare_Electrical_Manholes/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "VirginiaSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Virginia_NonNative_Species_and_Counts/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Oil_and_Natural_Gas_Wells",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Oil_and_Natural_Gas_Wells/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Oil_and_Natural_Gas_Platforms",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Oil_and_Natural_Gas_Platforms/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "OhioSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Ohio_NonNative_Species_and_Counts/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "SLU_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/SLU_(broadband)/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
         "title": "AO_(broadband)",
         "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/AO_(broadband)/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
-        "title": "NewJerseySpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/New_Jersey_NonNative_Species_and_Counts/FeatureServer/0",
+        "title": "ArizonaSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Arizona_NonNative_Species_and_Counts/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
-        "title": "WisconsinSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Wisconsin_NonNative_Species_and_Counts/FeatureServer/0",
+        "title": "ArkansasSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Arkansas_NonNative_Species_and_Counts/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
-        "title": "TA_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/TA_(broadband)/FeatureServer/0",
+        "title": "Broadband_Radio_Service_(BRS)_and_Educational_Broadband_Service_(EBS)_Transmitters",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Broadband_Radio_Service_(BRS)_and_Educational_Broadband_Service_(EBS)_Transmitters/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
@@ -510,13 +295,8 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "RhodeIslandSpeciesandCounts",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Rhode_Island_NonNative_Species_and_Counts/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "neg80ultrafreezer",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Negative_80C_Ultra_Freezer/FeatureServer/0",
+        "title": "ColoradoSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Colorado_NonNative_Species_and_Counts/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
@@ -525,48 +305,13 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "neg20freezers",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Negative_20C_Freezers/FeatureServer/0",
+        "title": "Electric_Power_Transmission_Lines",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Electric_Power_Transmission_Lines/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
-        "title": "80c ultra freezer 215",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/neg_80c_ultra_freezer/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "WU_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/WU_(broadband)/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "20c freezer 215",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Neg_20C_freezer/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "NE_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/NE_(broadband)/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Industrial Waste Lines",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/12",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Sewer Lines",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/11",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Existing_Recycled_Water_Lines",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/WaterReuse_WFL/FeatureServer/1",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Sewer Lines",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/10",
+        "title": "ET_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/ET_(broadband)/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
@@ -575,38 +320,13 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "Electric Structures",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/7",
+        "title": "Hydrocarbon_Gas_Liquid_Pipelines",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Hydrocarbon_Gas_Liquid_Pipelines/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
-        "title": "Gas Structures",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/6",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "StateSpecies_Group1",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/StateSpecies_Group1/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Fire Water Devices",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/4",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "LD_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/LD_(broadband)/FeatureServer/0",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "Storm Drain Structures",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/2",
-        "type": "FeatureLayer"
-    },
-    {
-        "title": "KY_(broadband)",
-        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/KY_(broadband)/FeatureServer/0",
+        "title": "IdahoSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Idaho_NonNative_Species_and_Counts/FeatureServer/0",
         "type": "FeatureLayer"
     },
     {
@@ -615,8 +335,283 @@
         "type": "FeatureLayer"
     },
     {
-        "title": "Sewer Structures",
-        "url": "https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services/UndergroundUtilities/FeatureServer/0",
+        "title": "IowaSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Iowa_NonNative_Species_and_Counts/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "IndianaSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Indiana_NonNative_Species_and_Counts/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "IU_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/IU_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "KY_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/KY_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "LD_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/LD_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Mussel_Occurrence_Locations",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Mussel_Occurrence_Locations/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "N4_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/N4_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "NaturalGasCompressorStations",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_Gas_Compressor_Stations/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Natural_Gas_Import_Export",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_Gas_Import_Export/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Natural_Gas_Pipelines",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_Gas_Liquid_Pipelines/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Natural_Gas_Market_Hubs",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_Gas_Market_Hubs/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Natural_Gas_Processing_Plants",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_Gas_Processing_Plants/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Natural_Gas_Storage_Facilities",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Natural_GasFacities_gdb/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "NE_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/NE_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "20c freezer 215",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Neg_20C_freezer/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "80c ultra freezer 215",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/neg_80c_ultra_freezer/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "neg20freezers",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Negative_20C_Freezers/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "neg80ultrafreezer",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Negative_80C_Ultra_Freezer/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "NM_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/NM_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "NewJerseySpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/New_Jersey_NonNative_Species_and_Counts/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "NorthCarolinaSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/North_Carolina_NonNative_Species_and_Counts/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "NW_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/NW_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "NorthDakotaSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/North_Dakota_NonNative_Species_and_Counts/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Oil_and_Natural_Gas_Platforms",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Oil_and_Natural_Gas_Platforms/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Oil_and_Natural_Gas_Wells",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Oil_and_Natural_Gas_Wells/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Outer_Continental_Shelf_(OCS)_Oil_and_Natural_Gas_Wells",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Outer_Continental_Shelf_(OCS)_Oil_and_Natural_Gas_Wells/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "OhioSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Ohio_NonNative_Species_and_Counts/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Paging_Transmission_Towers",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Paging_Transmission_Towers/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "PE_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/PE_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Peak_Shaving_Facilities",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Peak_Shaving_Facilities_gdb/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Petroleum_Ports",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Petroleum_Ports/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "POL_Terminals",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Petroleum_Terminals_1/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Planned transmission line ",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Planned_transmission_line_/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Power_Plants",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Plants_gdb/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "POL_Pumping_Station",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/POL_Pumping_Stations/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "POL_Terminals",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/POL_Terminals/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Public Refrigerated Warehouses",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Public_Refrigerated_Warehouses/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "SLU_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/SLU_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Seismic_Station_Compilation_NoVs30Measurement",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Seismic_Station_Compilation_NoVs30Measurement/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Seismic_Station_Compilation",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Seismic_Station_Compilation/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "SLU_(broadband)_Station_SLU",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/SLU_(broadband)_Station_SLU/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Seismic_Station_Compilation_forGISImport",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Seismic_Station_Compilation_forGISImport/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "RhodeIslandSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Rhode_Island_NonNative_Species_and_Counts/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "StateCapitolsforUS",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/StateCapitolBuildings/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "SouthDakotaSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/South_Dakota_NonNative_Species_and_Counts/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "StateSpecies_Group1",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/StateSpecies_Group1/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "StateSpecies_Group2",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/StateSpecies_Group2/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "StateSpecies_Group3",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/StateSpecies_Group3/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "SSIP",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/SSIP/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "TA_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/TA_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "Transmission_Lines",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Transmission_Lines/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "US_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/US_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "VirginiaSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Virginia_NonNative_Species_and_Counts/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "WestVirginiaSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/West_Virginia_NonNative_Species_and_Counts/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "WU_(broadband)",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/WU_(broadband)/FeatureServer/0",
+        "type": "FeatureLayer"
+    },
+    {
+        "title": "WisconsinSpeciesandCounts",
+        "url": "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/ArcGIS/rest/services/Wisconsin_NonNative_Species_and_Counts/FeatureServer/0",
         "type": "FeatureLayer"
     }
 ]
