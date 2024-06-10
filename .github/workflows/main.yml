@@ -38,12 +38,14 @@ jobs:
           pip install -r requirements.txt
 
 
-      - name: Upload layers
+      - name: Upload to Supabase
         env:
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-        run: |
-          python upload_layers.py
+          SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+          SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
+          SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+          SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
+        run: python upload_to_supabase.py
 
       - name: Commit and push changes
         env:
@@ -51,7 +53,8 @@ jobs:
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git pull origin main
-          git add services_metadata.json added_layers.json
-          git commit -m 'Update metadata and added layers'
+          git add .
+          git commit -m 'Update metadata'
+          git pull --rebase origin main
+          git push origin main
           git push origin main
