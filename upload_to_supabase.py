@@ -35,6 +35,8 @@ def create_table_from_dataframe(table_name, dataframe):
             columns.append(f"{escaped_column_name} INTEGER")
         elif dataframe[column_name].dtype == 'float64':
             columns.append(f"{escaped_column_name} FLOAT")
+        elif pd.api.types.is_datetime64_any_dtype(dataframe[column_name]):
+            columns.append(f"{escaped_column_name} TIMESTAMP")
         else:
             columns.append(f"{escaped_column_name} TEXT")
     
@@ -51,12 +53,18 @@ def create_table_from_dataframe(table_name, dataframe):
 def convert_geometry_to_json(geometry):
     return json.dumps(geometry.__geo_interface__)
 
+def sanitize_value(value):
+    if pd.isna(value):
+        return None
+    return value
+
 def insert_dataframe_to_supabase(table_name, dataframe):
     # Convert the SHAPE column to JSONB if it's a GeoDataFrame or has geospatial data
     if 'SHAPE' in dataframe.columns:
         dataframe['SHAPE'] = dataframe['SHAPE'].apply(convert_geometry_to_json)
     
     for _, row in dataframe.iterrows():
+        row = row.apply(sanitize_value)
         columns = ', '.join([f'"{col}"' for col in row.index])
         values = ', '.join(['%s'] * len(row))
         insert_query = f"INSERT INTO {table_name} ({columns}) VALUES ({values})"
