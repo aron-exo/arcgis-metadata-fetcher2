@@ -1,9 +1,3 @@
-arcgis
-aiohttp
-tqdm
-osmnx
-geopandas
-numpy
 shapely
 psycopg2
 streamlit
