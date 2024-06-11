@@ -28,14 +28,15 @@ def create_table_from_dataframe(table_name, dataframe):
     columns = []
     
     for column_name in dataframe.columns:
+        escaped_column_name = f'"{column_name}"'
         if column_name.lower() == 'shape':
-            columns.append(f"{column_name} JSONB")
+            columns.append(f"{escaped_column_name} JSONB")
         elif dataframe[column_name].dtype == 'int64':
-            columns.append(f"{column_name} INTEGER")
+            columns.append(f"{escaped_column_name} INTEGER")
         elif dataframe[column_name].dtype == 'float64':
-            columns.append(f"{column_name} FLOAT")
+            columns.append(f"{escaped_column_name} FLOAT")
         else:
-            columns.append(f"{column_name} TEXT")
+            columns.append(f"{escaped_column_name} TEXT")
     
     columns_query = ", ".join(columns)
     create_table_query = f"""
@@ -53,7 +54,7 @@ def insert_dataframe_to_supabase(table_name, dataframe):
         dataframe['SHAPE'] = dataframe['SHAPE'].apply(json.loads)
     
     for _, row in dataframe.iterrows():
-        columns = ', '.join(row.index)
+        columns = ', '.join([f'"{col}"' for col in row.index])
         values = ', '.join(['%s'] * len(row))
         insert_query = f"INSERT INTO {table_name} ({columns}) VALUES ({values})"
         cur.execute(insert_query, tuple(row))
@@ -77,7 +78,7 @@ def process_and_store_layers(layers_json_path):
         insert_dataframe_to_supabase(table_name, sdf)
 
 # Example usage
-process_and_store_layers("added_layers.json")
+process_and_store_layers("path_to_your_added_layers.json")
 
 # Close the cursor and connection
 cur.close()
