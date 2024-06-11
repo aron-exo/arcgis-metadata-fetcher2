@@ -63,6 +63,8 @@ def create_table_from_dataframe(table_name, dataframe):
     conn.commit()
 
 def convert_geometry_to_json(geometry):
+    if geometry is None:
+        return None
     return json.dumps(geometry.__geo_interface__)
 
 def sanitize_value(value):
