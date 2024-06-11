@@ -50,6 +50,7 @@ def create_table_from_dataframe(table_name, dataframe):
         {columns_query}
     )
     """
+    print(f"Creating table with query: {create_table_query}")  # Debug print
     cur.execute(create_table_query)
     conn.commit()
 
@@ -71,6 +72,7 @@ def insert_dataframe_to_supabase(table_name, dataframe):
         columns = ', '.join([f'"{col}"' for col in row.index])
         values = ', '.join(['%s'] * len(row))
         insert_query = f"INSERT INTO {table_name} ({columns}) VALUES ({values})"
+        print(f"Inserting row with query: {insert_query}")  # Debug print
         cur.execute(insert_query, tuple(row))
     
     conn.commit()
@@ -86,6 +88,13 @@ def process_and_store_layers(layers_json_path):
         # Fetch data for the layer using FeatureLayer
         feature_layer = FeatureLayer(layer_url)
         sdf = feature_layer.query().sdf
+        
+        print(f"Processing layer: {layer_name}")  # Debug print
+        print(sdf.head())  # Debug print to show dataframe structure
+        
+        if sdf.empty:
+            print(f"No data found for layer: {layer_name}")
+            continue
         
         table_name = layer_name.replace(" ", "_").lower()  # Create a suitable table name
         create_table_from_dataframe(table_name, sdf)
