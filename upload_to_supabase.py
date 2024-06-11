@@ -4,6 +4,7 @@ import json
 import pandas as pd
 import geopandas as gpd
 from arcgis.features import FeatureLayer
+import re
 
 # Environment variables for Supabase
 SUPABASE_DB_HOST = os.getenv('SUPABASE_DB_HOST')
@@ -22,6 +23,13 @@ conn = psycopg2.connect(
 )
 
 cur = conn.cursor()
+
+def sanitize_table_name(name):
+    # Remove or replace special characters to ensure valid SQL identifiers
+    name = re.sub(r'\W+', '_', name)
+    if name[0].isdigit():
+        name = '_' + name
+    return name.lower()
 
 def create_table_from_dataframe(table_name, dataframe):
     # Dynamically create table structure based on dataframe columns
@@ -96,7 +104,7 @@ def process_and_store_layers(layers_json_path):
             print(f"No data found for layer: {layer_name}")
             continue
         
-        table_name = layer_name.replace(" ", "_").lower()  # Create a suitable table name
+        table_name = sanitize_table_name(layer_name)  # Sanitize table name
         create_table_from_dataframe(table_name, sdf)
         insert_dataframe_to_supabase(table_name, sdf)
 
