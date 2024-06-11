@@ -81,7 +81,12 @@ def insert_dataframe_to_supabase(table_name, dataframe):
         row = row.apply(sanitize_value)
         columns = ', '.join([f'"{col}"' for col in row.index])
         values = ', '.join(['%s'] * len(row))
-        insert_query = f"INSERT INTO {table_name} ({columns}) VALUES ({values})"
+        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index])
+        insert_query = f"""
+        INSERT INTO {table_name} ({columns}) 
+        VALUES ({values}) 
+        ON CONFLICT (id) DO UPDATE SET {update_set}
+        """
         print(f"Inserting row with query: {insert_query}")  # Debug print
         cur.execute(insert_query, tuple(row))
     
