@@ -6,3 +6,9 @@ geopandas
 numpy
 shapely
 psycopg2
+streamlit
+pandas
+psycopg2-binary
+folium
+streamlit-folium
+python-dotenv
