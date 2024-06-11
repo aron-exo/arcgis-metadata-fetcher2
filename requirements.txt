@@ -1,5 +1,3 @@
-shapely
-psycopg2
 streamlit
 pandas
 psycopg2-binary
