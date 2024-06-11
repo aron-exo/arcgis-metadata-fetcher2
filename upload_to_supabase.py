@@ -40,6 +40,9 @@ def create_table_from_dataframe(table_name, dataframe):
         else:
             columns.append(f"{escaped_column_name} TEXT")
     
+    if not columns:
+        raise ValueError("No columns defined for the table.")
+    
     columns_query = ", ".join(columns)
     create_table_query = f"""
     CREATE TABLE IF NOT EXISTS {table_name} (
