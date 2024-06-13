@@ -6,6 +6,7 @@ import geopandas as gpd
 from arcgis.features import FeatureLayer
 import re
 
+
 # Environment variables for Supabase
 SUPABASE_DB_HOST = os.getenv('SUPABASE_DB_HOST')
 SUPABASE_DB_NAME = os.getenv('SUPABASE_DB_NAME')
