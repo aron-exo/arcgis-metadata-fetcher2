@@ -55,7 +55,8 @@ def create_table_from_dataframe(table_name, dataframe):
     create_table_query = f"""
     CREATE TABLE IF NOT EXISTS {table_name} (
         id SERIAL PRIMARY KEY,
-        {columns_query}
+        {columns_query},
+        srid INTEGER
     )
     """
     print(f"Creating table with query: {create_table_query}")  # Debug print
@@ -72,13 +73,14 @@ def sanitize_value(value):
         return None
     return value
 
-def insert_dataframe_to_supabase(table_name, dataframe):
+def insert_dataframe_to_supabase(table_name, dataframe, srid):
     # Convert the SHAPE column to JSONB if it's a GeoDataFrame or has geospatial data
     if 'SHAPE' in dataframe.columns:
         dataframe['SHAPE'] = dataframe['SHAPE'].apply(convert_geometry_to_json)
     
     for _, row in dataframe.iterrows():
         row = row.apply(sanitize_value)
+        row['srid'] = srid
         columns = ', '.join([f'"{col}"' for col in row.index])
         values = ', '.join(['%s'] * len(row))
         update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index])
@@ -103,6 +105,7 @@ def process_and_store_layers(layers_json_path):
         # Fetch data for the layer using FeatureLayer
         feature_layer = FeatureLayer(layer_url)
         sdf = feature_layer.query().sdf
+        srid = feature_layer.properties.extent['spatialReference']['wkid']
         
         print(f"Processing layer: {layer_name}")  # Debug print
         print(sdf.head())  # Debug print to show dataframe structure
@@ -113,7 +116,7 @@ def process_and_store_layers(layers_json_path):
         
         table_name = sanitize_table_name(layer_name)  # Sanitize table name
         create_table_from_dataframe(table_name, sdf)
-        insert_dataframe_to_supabase(table_name, sdf)
+        insert_dataframe_to_supabase(table_name, sdf, srid)
 
 # Example usage
 process_and_store_layers("added_layers.json")
