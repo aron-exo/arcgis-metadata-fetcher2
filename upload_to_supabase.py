@@ -109,7 +109,7 @@ def process_and_store_layers(layers_json_path):
         
         # Handle cases where the spatial reference is not available
         try:
-            srid = feature_layer.properties.extent['spatialReference']['wkid']
+            srid = feature_layer.properties.extent['spatialReference']['latestWkid']
         except (TypeError, KeyError):
             print(f"Spatial reference not available for layer: {layer_name}. Skipping.")
             continue
