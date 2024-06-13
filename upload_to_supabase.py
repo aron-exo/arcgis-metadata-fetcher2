@@ -106,7 +106,13 @@ def process_and_store_layers(layers_json_path):
         # Fetch data for the layer using FeatureLayer
         feature_layer = FeatureLayer(layer_url)
         sdf = feature_layer.query().sdf
-        srid = feature_layer.properties.extent['spatialReference']['wkid']
+        
+        # Handle cases where the spatial reference is not available
+        try:
+            srid = feature_layer.properties.extent['spatialReference']['wkid']
+        except (TypeError, KeyError):
+            print(f"Spatial reference not available for layer: {layer_name}. Skipping.")
+            continue
         
         print(f"Processing layer: {layer_name}")  # Debug print
         print(sdf.head())  # Debug print to show dataframe structure
