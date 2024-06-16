@@ -17,7 +17,37 @@ def sanitize_table_name(name):
         name = '_' + name
     return name.lower()
 
-def create_table_from_dataframe(cur, table_name, dataframe):
+def create_metadata_table(cur):
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS metadata (
+        id SERIAL PRIMARY KEY,
+        layer_name TEXT UNIQUE,
+        srid INTEGER,
+        drawing_info JSONB
+    )
+    """
+    print(f"Creating metadata table with query: {create_table_query}")  # Debug print
+    cur.execute(create_table_query)
+    cur.connection.commit()
+    print(f"Metadata table created successfully.")
+
+def insert_metadata(cur, layer_name, srid, drawing_info):
+    insert_query = """
+    INSERT INTO metadata (layer_name, srid, drawing_info)
+    VALUES (%s, %s, %s)
+    ON CONFLICT (layer_name) DO UPDATE
+    SET srid = EXCLUDED.srid,
+        drawing_info = EXCLUDED.drawing_info
+    RETURNING id
+    """
+    print(f"Inserting metadata with query: {insert_query}")  # Debug print
+    cur.execute(insert_query, (layer_name, srid, json.dumps(drawing_info)))
+    metadata_id = cur.fetchone()[0]
+    cur.connection.commit()
+    print(f"Metadata inserted successfully with id {metadata_id}.")
+    return metadata_id
+
+def create_table_from_dataframe(cur, table_name, dataframe, metadata_id):
     # Dynamically create table structure based on dataframe columns
     columns = []
     
@@ -42,7 +72,7 @@ def create_table_from_dataframe(cur, table_name, dataframe):
     CREATE TABLE IF NOT EXISTS {table_name} (
         id SERIAL PRIMARY KEY,
         {columns_query},
-        srid INTEGER
+        metadata_id INTEGER REFERENCES metadata(id)
     )
     """
     print(f"Creating table with query: {create_table_query}")  # Debug print
@@ -60,14 +90,14 @@ def sanitize_value(value):
         return None
     return value
 
-def insert_dataframe_to_supabase(cur, table_name, dataframe, srid):
+def insert_dataframe_to_supabase(cur, table_name, dataframe, metadata_id):
     # Convert the SHAPE column to JSONB if it's a GeoDataFrame or has geospatial data
     if 'SHAPE' in dataframe.columns:
         dataframe['SHAPE'] = dataframe['SHAPE'].apply(convert_geometry_to_json)
     
     for _, row in dataframe.iterrows():
         row = row.apply(sanitize_value)
-        row['srid'] = srid
+        row['metadata_id'] = metadata_id
         columns = ', '.join([f'"{col}"' for col in row.index])
         values = ', '.join(['%s'] * len(row))
         update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index])
@@ -82,15 +112,34 @@ def insert_dataframe_to_supabase(cur, table_name, dataframe, srid):
     cur.connection.commit()
     print(f"Data inserted into {table_name} successfully.")
 
+def check_table_exists(cur, table_name):
+    cur.execute("""
+    SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_name = %s
+    );
+    """, (table_name,))
+    return cur.fetchone()[0]
+
 def process_and_store_layers(layers_json_path):
     conn = connect_to_database()
     cur = conn.cursor()
+    
+    # Create metadata table if not exists
+    create_metadata_table(cur)
     
     with open(layers_json_path, 'r') as file:
         layers_data = json.load(file)
     
     for layer in layers_data:
         layer_name = layer['title']
+        table_name = sanitize_table_name(layer_name)
+        
+        # Skip if table already exists
+        if check_table_exists(cur, table_name):
+            print(f"Table {table_name} already exists. Skipping.")
+            continue
+
         layer_url = layer['url']
         
         # Fetch data for the layer using FeatureLayer
@@ -100,8 +149,9 @@ def process_and_store_layers(layers_json_path):
         # Handle cases where the spatial reference is not available
         try:
             srid = feature_layer.properties.extent['spatialReference']['latestWkid']
+            drawing_info = feature_layer.properties.drawingInfo
         except (TypeError, KeyError):
-            print(f"Spatial reference not available for layer: {layer_name}. Skipping.")
+            print(f"Spatial reference or drawing info not available for layer: {layer_name}. Skipping.")
             continue
         
         print(f"Processing layer: {layer_name}")  # Debug print
@@ -111,9 +161,9 @@ def process_and_store_layers(layers_json_path):
             print(f"No data found for layer: {layer_name}")
             continue
         
-        table_name = sanitize_table_name(layer_name)  # Sanitize table name
-        create_table_from_dataframe(cur, table_name, sdf)
-        insert_dataframe_to_supabase(cur, table_name, sdf, srid)
+        metadata_id = insert_metadata(cur, layer_name, srid, drawing_info)
+        create_table_from_dataframe(cur, table_name, sdf, metadata_id)
+        insert_dataframe_to_supabase(cur, table_name, sdf, metadata_id)
     
     # Close the cursor and connection
     cur.close()
