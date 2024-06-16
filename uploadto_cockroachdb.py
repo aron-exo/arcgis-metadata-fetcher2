@@ -115,7 +115,8 @@ def insert_dataframe_to_supabase(cur, table_name, dataframe, metadata_id):
 def check_table_exists(cur, table_name):
     cur.execute("""
     SELECT EXISTS (
-        SELECT FROM information_schema.tables 
+        SELECT 1 
+        FROM information_schema.tables 
         WHERE table_name = %s
     );
     """, (table_name,))
