@@ -47,6 +47,8 @@ def create_table_from_dataframe(cur, table_name, dataframe):
     """
     print(f"Creating table with query: {create_table_query}")  # Debug print
     cur.execute(create_table_query)
+    cur.connection.commit()
+    print(f"Table {table_name} created successfully.")
 
 def convert_geometry_to_json(geometry):
     if geometry is None:
@@ -76,6 +78,9 @@ def insert_dataframe_to_supabase(cur, table_name, dataframe, srid):
         """
         print(f"Inserting row with query: {insert_query}")  # Debug print
         cur.execute(insert_query, tuple(row))
+    
+    cur.connection.commit()
+    print(f"Data inserted into {table_name} successfully.")
 
 def process_and_store_layers(layers_json_path):
     conn = connect_to_database()
@@ -110,10 +115,10 @@ def process_and_store_layers(layers_json_path):
         create_table_from_dataframe(cur, table_name, sdf)
         insert_dataframe_to_supabase(cur, table_name, sdf, srid)
     
-    # Commit and close the cursor and connection
-    conn.commit()
+    # Close the cursor and connection
     cur.close()
     conn.close()
+    print("Processing complete. Connection closed.")
 
 # Example usage
 process_and_store_layers("added_layers.json")
