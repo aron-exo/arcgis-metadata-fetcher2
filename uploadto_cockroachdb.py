@@ -6,13 +6,9 @@ import geopandas as gpd
 from arcgis.features import FeatureLayer
 import re
 
-# Connect to the database
-conn = psycopg2.connect(os.environ["DATABASE_URL"])
-with conn.cursor() as cur:
-    cur.execute("SELECT now()")
-    res = cur.fetchall()
-    conn.commit()
-    print(res)
+def connect_to_database():
+    conn = psycopg2.connect(os.environ["DATABASE_URL"])
+    return conn
 
 def sanitize_table_name(name):
     # Remove or replace special characters to ensure valid SQL identifiers
@@ -21,7 +17,7 @@ def sanitize_table_name(name):
         name = '_' + name
     return name.lower()
 
-def create_table_from_dataframe(table_name, dataframe):
+def create_table_from_dataframe(cur, table_name, dataframe):
     # Dynamically create table structure based on dataframe columns
     columns = []
     
@@ -51,7 +47,6 @@ def create_table_from_dataframe(table_name, dataframe):
     """
     print(f"Creating table with query: {create_table_query}")  # Debug print
     cur.execute(create_table_query)
-    conn.commit()
 
 def convert_geometry_to_json(geometry):
     if geometry is None:
@@ -63,7 +58,7 @@ def sanitize_value(value):
         return None
     return value
 
-def insert_dataframe_to_supabase(table_name, dataframe, srid):
+def insert_dataframe_to_supabase(cur, table_name, dataframe, srid):
     # Convert the SHAPE column to JSONB if it's a GeoDataFrame or has geospatial data
     if 'SHAPE' in dataframe.columns:
         dataframe['SHAPE'] = dataframe['SHAPE'].apply(convert_geometry_to_json)
@@ -81,10 +76,11 @@ def insert_dataframe_to_supabase(table_name, dataframe, srid):
         """
         print(f"Inserting row with query: {insert_query}")  # Debug print
         cur.execute(insert_query, tuple(row))
-    
-    conn.commit()
 
 def process_and_store_layers(layers_json_path):
+    conn = connect_to_database()
+    cur = conn.cursor()
+    
     with open(layers_json_path, 'r') as file:
         layers_data = json.load(file)
     
@@ -111,14 +107,13 @@ def process_and_store_layers(layers_json_path):
             continue
         
         table_name = sanitize_table_name(layer_name)  # Sanitize table name
-        create_table_from_dataframe(table_name, sdf)
-        insert_dataframe_to_supabase(table_name, sdf, srid)
-
-    # Close the cursor and connection
+        create_table_from_dataframe(cur, table_name, sdf)
+        insert_dataframe_to_supabase(cur, table_name, sdf, srid)
+    
+    # Commit and close the cursor and connection
+    conn.commit()
     cur.close()
     conn.close()
 
 # Example usage
 process_and_store_layers("added_layers.json")
-
-
