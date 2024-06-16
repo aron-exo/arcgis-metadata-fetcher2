@@ -37,15 +37,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-
-      - name: Upload to Supabase
+      - name: Upload to Cockroachdb
         env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
           SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
           SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
           SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
-        run: python upload_to_supabase.py
+        run: python uploadto_cockroachdb.py
 
       - name: Commit and push changes
         env:
