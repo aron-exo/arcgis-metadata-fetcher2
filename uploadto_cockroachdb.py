@@ -3,7 +3,7 @@ import psycopg2
 import json
 import pandas as pd
 import geopandas as gpd
-from arcgis.features import FeatureLayer
+from arcgis.features import FeatureLayer, PropertyMap
 import re
 
 def connect_to_database():
@@ -32,6 +32,10 @@ def create_metadata_table(cur):
     print(f"Metadata table created successfully.")
 
 def insert_metadata(cur, layer_name, srid, drawing_info):
+    # Convert PropertyMap to dictionary if necessary
+    if isinstance(drawing_info, PropertyMap):
+        drawing_info = dict(drawing_info)
+    
     insert_query = """
     INSERT INTO metadata (layer_name, srid, drawing_info)
     VALUES (%s, %s, %s)
