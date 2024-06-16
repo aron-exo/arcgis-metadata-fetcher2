@@ -36,7 +36,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
+  
+      - name: Download certificate
+        run: |
+          mkdir -p $HOME/.postgresql/
+          Invoke-WebRequest -Uri https://cockroachlabs.cloud/clusters/66e36a88-fece-4d9f-ac0a-4adb01e0d743/cert -OutFile $HOME/.postgresql/root.crt
+        shell: pwsh
+        
       - name: Upload to Cockroachdb
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
