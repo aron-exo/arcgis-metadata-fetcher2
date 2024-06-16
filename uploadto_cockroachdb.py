@@ -114,9 +114,11 @@ def process_and_store_layers(layers_json_path):
         create_table_from_dataframe(table_name, sdf)
         insert_dataframe_to_supabase(table_name, sdf, srid)
 
+    # Close the cursor and connection
+    cur.close()
+    conn.close()
+
 # Example usage
 process_and_store_layers("added_layers.json")
 
-# Close the cursor and connection
-cur.close()
-conn.close()
+
