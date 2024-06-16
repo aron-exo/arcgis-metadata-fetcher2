@@ -35,7 +35,9 @@ def insert_metadata(cur, layer_name, srid, drawing_info):
     # Convert PropertyMap to dictionary if necessary
     if hasattr(drawing_info, 'to_dict'):
         drawing_info = drawing_info.to_dict()
-    
+    else:
+        drawing_info = dict(drawing_info)
+
     insert_query = """
     INSERT INTO metadata (layer_name, srid, drawing_info)
     VALUES (%s, %s, %s)
