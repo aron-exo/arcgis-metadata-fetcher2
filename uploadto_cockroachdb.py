@@ -6,6 +6,7 @@ import geopandas as gpd
 from arcgis.features import FeatureLayer
 import re
 
+
 # Connect to the database
 conn = psycopg2.connect(os.environ["DATABASE_URL"])
 with conn.cursor() as cur:
