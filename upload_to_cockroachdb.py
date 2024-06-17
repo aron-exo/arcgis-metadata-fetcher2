@@ -7,7 +7,13 @@ from arcgis.features import FeatureLayer
 import re
 
 def connect_to_database():
-    conn = psycopg2.connect(os.environ["DATABASE_URL"])
+    conn = psycopg2.connect(
+            host=os.getenv('COCKROACH_DB_HOST'),
+            database=os.getenv('COCKROACH_DB_DATABASE'),
+            user=os.getenv('COCKROACH_DB_USER'),
+            password=os.getenv('COCKROACH_DB_PASSWORD'),
+            port=os.getenv('COCKROACH_DB_PORT')
+        )
     return conn
     
 conn = connect_to_database()
