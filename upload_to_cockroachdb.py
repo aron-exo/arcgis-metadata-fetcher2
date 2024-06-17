@@ -9,7 +9,8 @@ import re
 def connect_to_database():
     conn = psycopg2.connect(os.environ["DATABASE_URL"])
     return conn
-
+    
+conn = connect_to_database()
 cur = conn.cursor()
 
 def sanitize_table_name(name):
