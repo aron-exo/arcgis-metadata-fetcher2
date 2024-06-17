@@ -9,14 +9,14 @@ import re
 
 def connect_to_database():
     conn = psycopg2.connect(
-            host=os.getenv('COCKROACH_DB_HOST'),
-            database=os.getenv('COCKROACH_DB_DATABASE'),
-            user=os.getenv('COCKROACH_DB_USER'),
-            password=os.getenv('COCKROACH_DB_PASSWORD'),
-            port=os.getenv('COCKROACH_DB_PORT')
-        )
+        host=os.getenv('COCKROACH_DB_HOST'),
+        database=os.getenv('COCKROACH_DB_DATABASE'),
+        user=os.getenv('COCKROACH_DB_USER'),
+        password=os.getenv('COCKROACH_DB_PASSWORD'),
+        port=os.getenv('COCKROACH_DB_PORT')
+    )
     return conn
-    
+
 conn = connect_to_database()
 cur = conn.cursor()
 
@@ -30,7 +30,7 @@ def sanitize_table_name(name):
 def create_table_from_dataframe(table_name, dataframe):
     # Dynamically create table structure based on dataframe columns
     columns = []
-    
+
     for column_name in dataframe.columns:
         escaped_column_name = f'"{column_name}"'
         if column_name.lower() == 'shape':
@@ -43,16 +43,17 @@ def create_table_from_dataframe(table_name, dataframe):
             columns.append(f"{escaped_column_name} TIMESTAMP")
         else:
             columns.append(f"{escaped_column_name} TEXT")
-    
+
     if not columns:
         raise ValueError("No columns defined for the table.")
-    
+
     columns_query = ", ".join(columns)
     create_table_query = f"""
     CREATE TABLE IF NOT EXISTS {table_name} (
         id SERIAL PRIMARY KEY,
         {columns_query},
-        srid INTEGER
+        srid INTEGER,
+        drawing_info JSONB
     )
     """
     print(f"Creating table with query: {create_table_query}")  # Debug print
@@ -69,14 +70,15 @@ def sanitize_value(value):
         return None
     return value
 
-def insert_dataframe_to_supabase(table_name, dataframe, srid):
+def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
     # Convert the SHAPE column to JSONB if it's a GeoDataFrame or has geospatial data
     if 'SHAPE' in dataframe.columns:
         dataframe['SHAPE'] = dataframe['SHAPE'].apply(convert_geometry_to_json)
-    
+
     for _, row in dataframe.iterrows():
         row = row.apply(sanitize_value)
         row['srid'] = srid
+        row['drawing_info'] = json.dumps(drawing_info)
         columns = ', '.join([f'"{col}"' for col in row.index])
         values = ', '.join(['%s'] * len(row))
         update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index])
@@ -87,38 +89,39 @@ def insert_dataframe_to_supabase(table_name, dataframe, srid):
         """
         print(f"Inserting row with query: {insert_query}")  # Debug print
         cur.execute(insert_query, tuple(row))
-    
+
     conn.commit()
 
 def process_and_store_layers(layers_json_path):
     with open(layers_json_path, 'r') as file:
         layers_data = json.load(file)
-    
+
     for layer in layers_data:
         layer_name = layer['title']
         layer_url = layer['url']
-        
+
         # Fetch data for the layer using FeatureLayer
         feature_layer = FeatureLayer(layer_url)
         sdf = feature_layer.query().sdf
-        
+
         # Handle cases where the spatial reference is not available
         try:
             srid = feature_layer.properties.extent['spatialReference']['latestWkid']
+            drawing_info = feature_layer.properties.drawingInfo
         except (TypeError, KeyError):
-            print(f"Spatial reference not available for layer: {layer_name}. Skipping.")
+            print(f"Spatial reference or drawing info not available for layer: {layer_name}. Skipping.")
             continue
-        
+
         print(f"Processing layer: {layer_name}")  # Debug print
         print(sdf.head())  # Debug print to show dataframe structure
-        
+
         if sdf.empty:
             print(f"No data found for layer: {layer_name}")
             continue
-        
+
         table_name = sanitize_table_name(layer_name)  # Sanitize table name
         create_table_from_dataframe(table_name, sdf)
-        insert_dataframe_to_supabase(table_name, sdf, srid)
+        insert_dataframe_to_supabase(table_name, sdf, srid, drawing_info)
 
 # Example usage
 process_and_store_layers("added_layers.json")
