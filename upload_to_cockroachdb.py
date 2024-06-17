@@ -6,21 +6,9 @@ import geopandas as gpd
 from arcgis.features import FeatureLayer
 import re
 
-# Environment variables for Supabase
-SUPABASE_DB_HOST = os.getenv('SUPABASE_DB_HOST')
-SUPABASE_DB_NAME = os.getenv('SUPABASE_DB_NAME')
-SUPABASE_DB_USER = os.getenv('SUPABASE_DB_USER')
-SUPABASE_DB_PASSWORD = os.getenv('SUPABASE_DB_PASSWORD')
-SUPABASE_DB_PORT = os.getenv('SUPABASE_DB_PORT')
-
-# Connect to Supabase
-conn = psycopg2.connect(
-    host=SUPABASE_DB_HOST,
-    database=SUPABASE_DB_NAME,
-    user=SUPABASE_DB_USER,
-    password=SUPABASE_DB_PASSWORD,
-    port=SUPABASE_DB_PORT
-)
+def connect_to_database():
+    conn = psycopg2.connect(os.environ["DATABASE_URL"])
+    return conn
 
 cur = conn.cursor()
 
