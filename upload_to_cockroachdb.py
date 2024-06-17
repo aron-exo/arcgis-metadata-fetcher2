@@ -6,6 +6,7 @@ import geopandas as gpd
 from arcgis.features import FeatureLayer
 import re
 
+
 def connect_to_database():
     conn = psycopg2.connect(
             host=os.getenv('COCKROACH_DB_HOST'),
