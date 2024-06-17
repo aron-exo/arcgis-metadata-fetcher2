@@ -37,21 +37,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
   
-      - name: Download certificate
-        run: |
-          mkdir -p $HOME/.postgresql/
-          Invoke-WebRequest -Uri https://cockroachlabs.cloud/clusters/66e36a88-fece-4d9f-ac0a-4adb01e0d743/cert -OutFile $HOME/.postgresql/root.crt
-        shell: pwsh
-        
       - name: Upload to Cockroachdb
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
-          SUPABASE_DB_NAME: ${{ secrets.SUPABASE_DB_NAME }}
-          SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
-          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-          SUPABASE_DB_PORT: ${{ secrets.SUPABASE_DB_PORT }}
-        run: python uploadto_cockroachdb.py
+          COCKROACH_DB_HOST: ${{ secrets.COCKROACH_DB_HOST }}
+          COCKROACH_DB_DATABASE: ${{ secrets.COCKROACH_DB_DATABASE }}
+          COCKROACH_DB_USER: ${{ secrets.COCKROACH_DB_USER }}
+          COCKROACH_DB_PASSWORD: ${{ secrets.COCKROACH_DB_PASSWORD }}
+          COCKROACH_DB_PORT: ${{ secrets.COCKROACH_DB_PORT }}
+        run: python upload_to_cockroachdb.py
 
       - name: Commit and push changes
         env:
