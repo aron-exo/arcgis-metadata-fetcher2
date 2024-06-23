@@ -1,3 +1,4 @@
+import os
 import psycopg2
 
 def connect_to_database():
