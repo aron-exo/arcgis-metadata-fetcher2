@@ -44,7 +44,7 @@ jobs:
           COCKROACH_DB_USER: ${{ secrets.COCKROACH_DB_USER }}
           COCKROACH_DB_PASSWORD: ${{ secrets.COCKROACH_DB_PASSWORD }}
           COCKROACH_DB_PORT: ${{ secrets.COCKROACH_DB_PORT }}
-        run: python delete_tables_in_db.py
+        run: python upload_to_cockroachdb2.py
 
       - name: Commit and push changes
         env:
