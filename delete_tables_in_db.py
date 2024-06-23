@@ -10,22 +10,24 @@ def connect_to_database():
     )
     return conn
 
-def generate_and_execute_drop_statements(conn):
+def drop_all_tables(conn):
     cur = conn.cursor()
-
-    # Generate the DROP TABLE statements
-    cur.execute("SELECT 'DROP TABLE IF EXISTS \"' || tablename || '\" CASCADE;' FROM pg_tables WHERE schemaname = 'public';")
-    drop_statements = cur.fetchall()
     
-    # Execute each DROP TABLE statement
-    for statement in drop_statements:
-        cur.execute(statement[0])
-        print(f"Executed: {statement[0]}")
+    # Get all table names
+    cur.execute("SELECT tablename FROM pg_tables WHERE schemaname = 'public'")
+    tables = cur.fetchall()
+    
+    # Drop each table
+    for table in tables:
+        table_name = table[0]
+        drop_query = f"DROP TABLE IF EXISTS {table_name} CASCADE"
+        cur.execute(drop_query)
+        print(f"Dropped table {table_name}")
     
     conn.commit()
     cur.close()
 
 if __name__ == "__main__":
     conn = connect_to_database()
-    generate_and_execute_drop_statements(conn)
+    drop_all_tables(conn)
     conn.close()
