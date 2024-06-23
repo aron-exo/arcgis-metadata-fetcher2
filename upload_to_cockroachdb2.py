@@ -72,8 +72,8 @@ def insert_dataframe_to_database(table_name, dataframe, srid, drawing_info):
     
     for _, row in dataframe.iterrows():
         row = row.apply(sanitize_value)
-        original_geometry = json.loads(row['SHAPE'])
-        wkt_geometry = convert_geometry_to_wkt(shape(original_geometry))
+        original_geometry = row['SHAPE']  # Directly use the geometry object
+        wkt_geometry = convert_geometry_to_wkt(original_geometry)
         row['srid'] = srid
         row['drawing_info'] = json.dumps(drawing_info_dict)
         row['SHAPE'] = wkt_geometry
