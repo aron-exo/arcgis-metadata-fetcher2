@@ -29,10 +29,10 @@ def sanitize_table_name(name):
 def create_table_from_dataframe(table_name, dataframe):
     columns = []
     for column_name in dataframe.columns:
-        escaped_column_name = f'"{column_name}"'
+        escaped_column_name = f'"{column_name.lower()}"'
         if column_name.lower() == 'shape':
             columns.append(f"{escaped_column_name} JSONB")
-            columns.append(f'"{column_name}_wkt" TEXT')
+            columns.append(f'"{column_name.lower()}_wkt" TEXT')
         elif dataframe[column_name].dtype == 'int64':
             columns.append(f"{escaped_column_name} INTEGER")
         elif dataframe[column_name].dtype == 'float64':
@@ -82,14 +82,14 @@ def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
         row_dict['srid'] = srid
         row_dict['drawing_info'] = json.dumps(drawing_info_dict)
         
-        if 'SHAPE' in row.index:
-            geometry = shape(row['SHAPE'])
-            row_dict['SHAPE'] = convert_geometry_to_geojson(geometry)
-            row_dict['SHAPE_wkt'] = convert_geometry_to_wkt(geometry)
+        if 'shape' in row_dict:
+            geometry = shape(row['shape'])
+            row_dict['shape'] = convert_geometry_to_geojson(geometry)
+            row_dict['shape_wkt'] = convert_geometry_to_wkt(geometry)
         
-        columns = ', '.join([f'"{col}"' for col in row_dict.keys()])
+        columns = ', '.join([f'"{col.lower()}"' for col in row_dict.keys()])
         values = ', '.join(['%s'] * len(row_dict))
-        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row_dict.keys()])
+        update_set = ', '.join([f'"{col.lower()}" = EXCLUDED."{col.lower()}"' for col in row_dict.keys()])
         insert_query = f"""
         INSERT INTO {table_name} ({columns}) 
         VALUES ({values}) 
