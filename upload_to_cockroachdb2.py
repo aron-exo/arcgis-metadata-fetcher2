@@ -73,7 +73,7 @@ def sanitize_value(value):
 def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
     # Convert the SHAPE column to JSONB if it's a GeoDataFrame or has geospatial data
     if 'SHAPE' in dataframe.columns:
-        dataframe['geometry'] = dataframe['SHAPE']
+       # dataframe['geometry'] = dataframe['SHAPE']
         dataframe['SHAPE'] = dataframe['SHAPE'].apply(convert_geometry_to_json)
         
     
