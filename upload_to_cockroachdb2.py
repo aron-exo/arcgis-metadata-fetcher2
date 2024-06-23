@@ -6,6 +6,7 @@ from arcgis.features import FeatureLayer
 import re
 from shapely.geometry import shape
 from shapely.wkt import dumps
+from shapely.geometry import mapping
 
 def connect_to_database():
     conn = psycopg2.connect(
@@ -31,7 +32,8 @@ def create_table_from_dataframe(table_name, dataframe):
     for column_name in dataframe.columns:
         escaped_column_name = f'"{column_name}"'
         if column_name.lower() == 'shape':
-            columns.append(f"{escaped_column_name} geometry")
+            columns.append(f"{escaped_column_name} JSONB")
+            columns.append(f'"{column_name}_wkt" TEXT')
         elif dataframe[column_name].dtype == 'int64':
             columns.append(f"{escaped_column_name} INTEGER")
         elif dataframe[column_name].dtype == 'float64':
@@ -57,6 +59,11 @@ def create_table_from_dataframe(table_name, dataframe):
     cur.execute(create_table_query)
     conn.commit()
 
+def convert_geometry_to_geojson(geometry):
+    if geometry is None:
+        return None
+    return json.dumps(mapping(geometry))
+
 def convert_geometry_to_wkt(geometry):
     if geometry is None:
         return None
@@ -67,27 +74,27 @@ def sanitize_value(value):
         return None
     return value
 
-def insert_dataframe_to_database(table_name, dataframe, srid, drawing_info):
+def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
+    if 'SHAPE' in dataframe.columns:
+        dataframe['SHAPE_geojson'] = dataframe['SHAPE'].apply(lambda geom: convert_geometry_to_geojson(shape(geom)) if geom else None)
+        dataframe['SHAPE_wkt'] = dataframe['SHAPE'].apply(lambda geom: convert_geometry_to_wkt(shape(geom)) if geom else None)
+    
     drawing_info_dict = dict(drawing_info)
     
     for _, row in dataframe.iterrows():
         row = row.apply(sanitize_value)
-        original_geometry = shape(row['SHAPE'])  # Convert dictionary to shapely geometry object
-        wkt_geometry = convert_geometry_to_wkt(original_geometry)
         row['srid'] = srid
         row['drawing_info'] = json.dumps(drawing_info_dict)
-        row = row.drop('SHAPE')
-        
-        columns = ', '.join([f'"{col}"' for col in row.index] + ['"SHAPE"'])
-        values = ', '.join(['%s'] * len(row) + ['ST_GeomFromText(%s, %s)'])
-        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index] + ['"SHAPE" = EXCLUDED."SHAPE"'])
+        columns = ', '.join([f'"{col}"' for col in row.index])
+        values = ', '.join(['%s'] * len(row))
+        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index])
         insert_query = f"""
         INSERT INTO {table_name} ({columns}) 
         VALUES ({values}) 
         ON CONFLICT (id) DO UPDATE SET {update_set}
         """
         print(f"Inserting row with query: {insert_query}")
-        cur.execute(insert_query, tuple(row) + (wkt_geometry, srid))
+        cur.execute(insert_query, tuple(row))
     
     conn.commit()
 
@@ -118,10 +125,10 @@ def process_and_store_layers(layers_json_path):
         
         table_name = sanitize_table_name(layer_name)
         create_table_from_dataframe(table_name, sdf)
-        insert_dataframe_to_database(table_name, sdf, srid, drawing_info)
+        insert_dataframe_to_supabase(table_name, sdf, srid, drawing_info)
 
 # Example usage
-process_and_store_layers("added_layers(small).json")
+process_and_store_layers("added_layers.json")
 
 # Close the cursor and connection
 cur.close()
