@@ -4,7 +4,7 @@ import json
 import pandas as pd
 from arcgis.features import FeatureLayer
 import re
-from shapely.geometry import shape, mapping
+from shapely.geometry import shape
 from shapely.wkt import dumps
 
 def connect_to_database():
@@ -29,7 +29,7 @@ def sanitize_table_name(name):
 def create_table_from_dataframe(table_name, dataframe):
     columns = []
     for column_name in dataframe.columns:
-        escaped_column_name = f'"{column_name.lower()}"'
+        escaped_column_name = f'"{column_name}"'
         if column_name.lower() == 'shape':
             columns.append(f"{escaped_column_name} JSONB")
             columns.append(f'"{column_name.lower()}_wkt" TEXT')
@@ -58,11 +58,6 @@ def create_table_from_dataframe(table_name, dataframe):
     cur.execute(create_table_query)
     conn.commit()
 
-def convert_geometry_to_geojson(geometry):
-    if geometry is None:
-        return None
-    return json.dumps(mapping(geometry))
-
 def convert_geometry_to_wkt(geometry):
     if geometry is None:
         return None
@@ -73,7 +68,7 @@ def sanitize_value(value):
         return None
     return value
 
-def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
+def insert_dataframe_to_database(table_name, dataframe, srid, drawing_info):
     drawing_info_dict = dict(drawing_info)
     
     for _, row in dataframe.iterrows():
@@ -82,14 +77,14 @@ def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
         row_dict['srid'] = srid
         row_dict['drawing_info'] = json.dumps(drawing_info_dict)
         
-        if 'shape' in row_dict:
-            geometry = shape(row['shape'])
-            row_dict['shape'] = convert_geometry_to_geojson(geometry)
-            row_dict['shape_wkt'] = convert_geometry_to_wkt(geometry)
+        if 'SHAPE' in row_dict:
+            original_geometry = row_dict['SHAPE']
+            shapely_geometry = shape(original_geometry)
+            row_dict['SHAPE_wkt'] = convert_geometry_to_wkt(shapely_geometry)
         
-        columns = ', '.join([f'"{col.lower()}"' for col in row_dict.keys()])
+        columns = ', '.join([f'"{col}"' for col in row_dict.keys()])
         values = ', '.join(['%s'] * len(row_dict))
-        update_set = ', '.join([f'"{col.lower()}" = EXCLUDED."{col.lower()}"' for col in row_dict.keys()])
+        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row_dict.keys()])
         insert_query = f"""
         INSERT INTO {table_name} ({columns}) 
         VALUES ({values}) 
@@ -127,7 +122,7 @@ def process_and_store_layers(layers_json_path):
         
         table_name = sanitize_table_name(layer_name)
         create_table_from_dataframe(table_name, sdf)
-        insert_dataframe_to_supabase(table_name, sdf, srid, drawing_info)
+        insert_dataframe_to_database(table_name, sdf, srid, drawing_info)
 
 # Example usage
 process_and_store_layers("added_layers.json")
