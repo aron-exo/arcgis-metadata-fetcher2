@@ -12,7 +12,7 @@ def connect_to_database():
 
 def generate_and_execute_drop_statements(conn):
     cur = conn.cursor()
-    
+
     # Generate the DROP TABLE statements
     cur.execute("SELECT 'DROP TABLE IF EXISTS \"' || tablename || '\" CASCADE;' FROM pg_tables WHERE schemaname = 'public';")
     drop_statements = cur.fetchall()
