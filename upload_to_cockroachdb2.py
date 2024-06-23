@@ -1,11 +1,11 @@
+
 import os
 import psycopg2
 import json
 import pandas as pd
+import geopandas as gpd
 from arcgis.features import FeatureLayer
 import re
-from shapely.geometry import shape, mapping
-from shapely.wkt import dumps
 
 def connect_to_database():
     conn = psycopg2.connect(
@@ -21,18 +21,20 @@ conn = connect_to_database()
 cur = conn.cursor()
 
 def sanitize_table_name(name):
+    # Remove or replace special characters to ensure valid SQL identifiers
     name = re.sub(r'\W+', '_', name)
     if name[0].isdigit():
         name = '_' + name
     return name.lower()
 
 def create_table_from_dataframe(table_name, dataframe):
+    # Dynamically create table structure based on dataframe columns
     columns = []
+    
     for column_name in dataframe.columns:
         escaped_column_name = f'"{column_name}"'
         if column_name.lower() == 'shape':
             columns.append(f"{escaped_column_name} JSONB")
-            columns.append(f'"{column_name}_wkt" TEXT')
         elif dataframe[column_name].dtype == 'int64':
             columns.append(f"{escaped_column_name} INTEGER")
         elif dataframe[column_name].dtype == 'float64':
@@ -54,19 +56,14 @@ def create_table_from_dataframe(table_name, dataframe):
         drawing_info JSONB
     )
     """
-    print(f"Creating table with query: {create_table_query}")
+    print(f"Creating table with query: {create_table_query}")  # Debug print
     cur.execute(create_table_query)
     conn.commit()
 
-def convert_geometry_to_geojson(geometry):
+def convert_geometry_to_json(geometry):
     if geometry is None:
         return None
-    return json.dumps(mapping(geometry))
-
-def convert_geometry_to_wkt(geometry):
-    if geometry is None:
-        return None
-    return dumps(geometry)
+    return json.dumps(geometry.__geo_interface__)
 
 def sanitize_value(value):
     if pd.isna(value):
@@ -74,10 +71,13 @@ def sanitize_value(value):
     return value
 
 def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
+    # Convert the SHAPE column to JSONB if it's a GeoDataFrame or has geospatial data
     if 'SHAPE' in dataframe.columns:
-        dataframe['SHAPE_geojson'] = dataframe['SHAPE'].apply(lambda geom: convert_geometry_to_geojson(shape(geom)) if geom else None)
-        dataframe['SHAPE_wkt'] = dataframe['SHAPE'].apply(lambda geom: convert_geometry_to_wkt(shape(geom)) if geom else None)
+        dataframe['geometry'] = dataframe['SHAPE']
+        dataframe['SHAPE'] = dataframe['SHAPE'].apply(convert_geometry_to_json)
+        
     
+    # Ensure drawing_info is a serializable dictionary
     drawing_info_dict = dict(drawing_info)
     
     for _, row in dataframe.iterrows():
@@ -92,7 +92,7 @@ def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
         VALUES ({values}) 
         ON CONFLICT (id) DO UPDATE SET {update_set}
         """
-        print(f"Inserting row with query: {insert_query}")
+        print(f"Inserting row with query: {insert_query}")  # Debug print
         cur.execute(insert_query, tuple(row))
     
     conn.commit()
@@ -105,9 +105,11 @@ def process_and_store_layers(layers_json_path):
         layer_name = layer['title']
         layer_url = layer['url']
         
+        # Fetch data for the layer using FeatureLayer
         feature_layer = FeatureLayer(layer_url)
         sdf = feature_layer.query().sdf
         
+        # Handle cases where the spatial reference is not available
         try:
             srid = feature_layer.properties.extent['spatialReference']['latestWkid']
             drawing_info = feature_layer.properties.drawingInfo
@@ -115,14 +117,14 @@ def process_and_store_layers(layers_json_path):
             print(f"Spatial reference or drawing info not available for layer: {layer_name}. Skipping.")
             continue
         
-        print(f"Processing layer: {layer_name}")
-        print(sdf.head())
+        print(f"Processing layer: {layer_name}")  # Debug print
+        print(sdf.head())  # Debug print to show dataframe structure
         
         if sdf.empty:
             print(f"No data found for layer: {layer_name}")
             continue
         
-        table_name = sanitize_table_name(layer_name)
+        table_name = sanitize_table_name(layer_name)  # Sanitize table name
         create_table_from_dataframe(table_name, sdf)
         insert_dataframe_to_supabase(table_name, sdf, srid, drawing_info)
 
