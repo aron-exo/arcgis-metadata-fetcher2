@@ -32,7 +32,7 @@ def create_table_from_dataframe(table_name, dataframe):
         escaped_column_name = f'"{column_name}"'
         if column_name.lower() == 'shape':
             columns.append(f"{escaped_column_name} JSONB")
-            columns.append(f"{escaped_column_name}_ewkb BYTEA")
+            columns.append(f'"{column_name}_ewkb" BYTEA')
         elif dataframe[column_name].dtype == 'int64':
             columns.append(f"{escaped_column_name} INTEGER")
         elif dataframe[column_name].dtype == 'float64':
@@ -57,6 +57,7 @@ def create_table_from_dataframe(table_name, dataframe):
     print(f"Creating table with query: {create_table_query}")
     cur.execute(create_table_query)
     conn.commit()
+
 
 def convert_geometry_to_ewkb(geometry, srid):
     if geometry is None:
