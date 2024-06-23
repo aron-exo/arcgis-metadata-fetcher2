@@ -76,14 +76,11 @@ def insert_dataframe_to_database(table_name, dataframe, srid, drawing_info):
         wkt_geometry = convert_geometry_to_wkt(original_geometry)
         row['srid'] = srid
         row['drawing_info'] = json.dumps(drawing_info_dict)
-        row['SHAPE'] = wkt_geometry
+        row = row.drop('SHAPE')
         
-        columns = ', '.join([f'"{col}"' for col in row.index if col != 'SHAPE'])
-        columns += ', "SHAPE"'
-        values = ', '.join(['%s'] * (len(row) - 1))
-        values += ', ST_GeomFromText(%s, %s)'
-        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index if col != 'SHAPE'])
-        update_set += ', "SHAPE" = EXCLUDED."SHAPE"'
+        columns = ', '.join([f'"{col}"' for col in row.index] + ['"SHAPE"'])
+        values = ', '.join(['%s'] * len(row) + ['ST_GeomFromText(%s, %s)'])
+        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index] + ['"SHAPE" = EXCLUDED."SHAPE"'])
         insert_query = f"""
         INSERT INTO {table_name} ({columns}) 
         VALUES ({values}) 
