@@ -7,6 +7,7 @@ import re
 from shapely.geometry import shape
 from shapely.wkb import dumps
 
+
 def connect_to_database():
     conn = psycopg2.connect(
         host=os.getenv('COCKROACH_DB_HOST'),
