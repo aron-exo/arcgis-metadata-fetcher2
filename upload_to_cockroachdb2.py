@@ -5,7 +5,7 @@ import pandas as pd
 from arcgis.features import FeatureLayer
 import re
 from shapely.geometry import shape
-from shapely.wkb import dumps
+from shapely.wkt import dumps
 
 def connect_to_database():
     conn = psycopg2.connect(
@@ -31,8 +31,7 @@ def create_table_from_dataframe(table_name, dataframe):
     for column_name in dataframe.columns:
         escaped_column_name = f'"{column_name}"'
         if column_name.lower() == 'shape':
-            columns.append(f"{escaped_column_name} JSONB")
-            columns.append(f'"{column_name}_ewkb" BYTEA')
+            columns.append(f"{escaped_column_name} geometry")
         elif dataframe[column_name].dtype == 'int64':
             columns.append(f"{escaped_column_name} INTEGER")
         elif dataframe[column_name].dtype == 'float64':
@@ -58,11 +57,10 @@ def create_table_from_dataframe(table_name, dataframe):
     cur.execute(create_table_query)
     conn.commit()
 
-
-def convert_geometry_to_ewkb(geometry, srid):
+def convert_geometry_to_wkt(geometry):
     if geometry is None:
         return None
-    return dumps(geometry, srid=srid, hex=True)
+    return dumps(geometry)
 
 def sanitize_value(value):
     if pd.isna(value):
@@ -75,21 +73,24 @@ def insert_dataframe_to_database(table_name, dataframe, srid, drawing_info):
     for _, row in dataframe.iterrows():
         row = row.apply(sanitize_value)
         original_geometry = json.loads(row['SHAPE'])
-        ewkb_geometry = convert_geometry_to_ewkb(shape(original_geometry), srid)
+        wkt_geometry = convert_geometry_to_wkt(shape(original_geometry))
         row['srid'] = srid
         row['drawing_info'] = json.dumps(drawing_info_dict)
-        row['SHAPE_EWKB'] = ewkb_geometry
+        row['SHAPE'] = wkt_geometry
         
-        columns = ', '.join([f'"{col}"' for col in row.index])
-        values = ', '.join(['%s'] * len(row))
-        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index])
+        columns = ', '.join([f'"{col}"' for col in row.index if col != 'SHAPE'])
+        columns += ', "SHAPE"'
+        values = ', '.join(['%s'] * (len(row) - 1))
+        values += ', ST_GeomFromText(%s, %s)'
+        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index if col != 'SHAPE'])
+        update_set += ', "SHAPE" = EXCLUDED."SHAPE"'
         insert_query = f"""
         INSERT INTO {table_name} ({columns}) 
         VALUES ({values}) 
         ON CONFLICT (id) DO UPDATE SET {update_set}
         """
         print(f"Inserting row with query: {insert_query}")
-        cur.execute(insert_query, tuple(row))
+        cur.execute(insert_query, tuple(row) + (wkt_geometry, srid))
     
     conn.commit()
 
