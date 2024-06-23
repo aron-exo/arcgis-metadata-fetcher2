@@ -16,6 +16,7 @@ def connect_to_database():
     )
     return conn
 
+
 conn = connect_to_database()
 cur = conn.cursor()
 
