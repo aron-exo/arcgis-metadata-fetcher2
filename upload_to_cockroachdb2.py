@@ -4,9 +4,8 @@ import json
 import pandas as pd
 from arcgis.features import FeatureLayer
 import re
-from shapely.geometry import shape
+from shapely.geometry import shape, mapping
 from shapely.wkt import dumps
-from shapely.geometry import mapping
 
 def connect_to_database():
     conn = psycopg2.connect(
@@ -128,7 +127,7 @@ def process_and_store_layers(layers_json_path):
         insert_dataframe_to_supabase(table_name, sdf, srid, drawing_info)
 
 # Example usage
-process_and_store_layers("added_layers(small).json")
+process_and_store_layers("added_layers.json")
 
 # Close the cursor and connection
 cur.close()
