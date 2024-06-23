@@ -2,11 +2,11 @@ import psycopg2
 
 def connect_to_database():
     conn = psycopg2.connect(
-        host='your_cockroachdb_host',
-        database='your_database',
-        user='your_username',
-        password='your_password',
-        port='your_port'
+        host=os.getenv('COCKROACH_DB_HOST'),
+        database=os.getenv('COCKROACH_DB_DATABASE'),
+        user=os.getenv('COCKROACH_DB_USER'),
+        password=os.getenv('COCKROACH_DB_PASSWORD'),
+        port=os.getenv('COCKROACH_DB_PORT')
     )
     return conn
 
