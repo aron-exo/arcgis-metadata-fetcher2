@@ -27,7 +27,7 @@ def sanitize_table_name(name):
     return name.lower()
 
 def check_table_exists(table_name):
-    cur.execute(f"SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = '{table_name}');")
+    cur.execute(f"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '{table_name}');")
     return cur.fetchone()[0]
 
 def create_table_from_dataframe(table_name, dataframe):
