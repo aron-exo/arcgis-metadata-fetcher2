@@ -26,6 +26,10 @@ def sanitize_table_name(name):
         name = '_' + name
     return name.lower()
 
+def check_table_exists(table_name):
+    cur.execute(f"SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = '{table_name}');")
+    return cur.fetchone()[0]
+
 def create_table_from_dataframe(table_name, dataframe):
     # Dynamically create table structure based on dataframe columns
     columns = []
@@ -52,7 +56,8 @@ def create_table_from_dataframe(table_name, dataframe):
         id SERIAL PRIMARY KEY,
         {columns_query},
         srid INTEGER,
-        drawing_info JSONB
+        drawing_info JSONB,
+        UNIQUE ("{dataframe.columns[0]}")
     )
     """
     print(f"Creating table with query: {create_table_query}")  # Debug print
@@ -83,11 +88,11 @@ def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
         row['drawing_info'] = json.dumps(drawing_info_dict)
         columns = ', '.join([f'"{col}"' for col in row.index])
         values = ', '.join(['%s'] * len(row))
-        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index])
+        update_set = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in row.index if col != 'id'])
         insert_query = f"""
         INSERT INTO {table_name} ({columns}) 
         VALUES ({values}) 
-        ON CONFLICT (id) DO UPDATE SET {update_set}
+        ON CONFLICT ("{dataframe.columns[0]}") DO UPDATE SET {update_set}
         """
         print(f"Inserting row with query: {insert_query}")  # Debug print
         cur.execute(insert_query, tuple(row))
@@ -122,7 +127,10 @@ def process_and_store_layers(layers_json_path):
             continue
         
         table_name = sanitize_table_name(layer_name)  # Sanitize table name
-        create_table_from_dataframe(table_name, sdf)
+        
+        if not check_table_exists(table_name):
+            create_table_from_dataframe(table_name, sdf)
+        
         insert_dataframe_to_supabase(table_name, sdf, srid, drawing_info)
 
 # Example usage
