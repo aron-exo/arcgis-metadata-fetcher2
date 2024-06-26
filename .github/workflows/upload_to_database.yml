@@ -55,4 +55,3 @@ jobs:
           git commit -m 'Update metadata'
           git pull --rebase origin main
           git push origin main
-          git push origin main
