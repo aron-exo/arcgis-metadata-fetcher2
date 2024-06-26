@@ -1,2 +1,0 @@
-https://gisapps.glendaleca.gov//arcgis/rest/services/
-https://services5.arcgis.com//FDIcdEEqy1cBDX8N/arcgis/rest/services/
