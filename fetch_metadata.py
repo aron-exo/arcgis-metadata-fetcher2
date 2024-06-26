@@ -5,6 +5,7 @@ import json
 from tqdm import tqdm
 from urllib.parse import urljoin
 
+
 async def fetch_metadata(session, url):
     """
     Fetch metadata from a given URL.
