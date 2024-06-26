@@ -5,6 +5,9 @@ import pandas as pd
 import geopandas as gpd
 from arcgis.features import FeatureLayer
 import re
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 def connect_to_database():
     conn = psycopg2.connect(
@@ -20,7 +23,6 @@ conn = connect_to_database()
 cur = conn.cursor()
 
 def sanitize_table_name(name):
-    # Remove or replace special characters to ensure valid SQL identifiers
     name = re.sub(r'\W+', '_', name)
     if name[0].isdigit():
         name = '_' + name
@@ -31,7 +33,6 @@ def check_table_exists(table_name):
     return cur.fetchone()[0]
 
 def create_table_from_dataframe(table_name, dataframe):
-    # Dynamically create table structure based on dataframe columns
     columns = []
     
     for column_name in dataframe.columns:
@@ -60,7 +61,7 @@ def create_table_from_dataframe(table_name, dataframe):
         UNIQUE ("{dataframe.columns[0]}")
     )
     """
-    print(f"Creating table with query: {create_table_query}")  # Debug print
+    logging.info(f"Creating table with query: {create_table_query}")
     cur.execute(create_table_query)
     conn.commit()
 
@@ -72,14 +73,22 @@ def convert_geometry_to_json(geometry):
 def sanitize_value(value):
     if pd.isna(value):
         return None
+    if isinstance(value, pd.Timestamp):
+        return value.to_pydatetime()
     return value
 
+def validate_and_convert_dataframe(dataframe):
+    for column in dataframe.columns:
+        if pd.api.types.is_datetime64_any_dtype(dataframe[column]):
+            dataframe[column] = pd.to_datetime(dataframe[column], errors='coerce')
+    return dataframe
+
 def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
-    # Convert the SHAPE column to JSONB if it's a GeoDataFrame or has geospatial data
+    dataframe = validate_and_convert_dataframe(dataframe)
+
     if 'SHAPE' in dataframe.columns:
         dataframe['SHAPE'] = dataframe['SHAPE'].apply(convert_geometry_to_json)
     
-    # Ensure drawing_info is a serializable dictionary
     drawing_info_dict = dict(drawing_info)
     
     for _, row in dataframe.iterrows():
@@ -94,8 +103,11 @@ def insert_dataframe_to_supabase(table_name, dataframe, srid, drawing_info):
         VALUES ({values}) 
         ON CONFLICT ("{dataframe.columns[0]}") DO UPDATE SET {update_set}
         """
-        print(f"Inserting row with query: {insert_query}")  # Debug print
-        cur.execute(insert_query, tuple(row))
+        logging.info(f"Inserting row with query: {insert_query}")
+        try:
+            cur.execute(insert_query, tuple(row))
+        except psycopg2.Error as e:
+            logging.error(f"Error inserting row: {e}")
     
     conn.commit()
 
@@ -107,26 +119,24 @@ def process_and_store_layers(layers_json_path):
         layer_name = layer['title']
         layer_url = layer['url']
         
-        # Fetch data for the layer using FeatureLayer
         feature_layer = FeatureLayer(layer_url)
         sdf = feature_layer.query().sdf
         
-        # Handle cases where the spatial reference is not available
         try:
             srid = feature_layer.properties.extent['spatialReference']['latestWkid']
             drawing_info = feature_layer.properties.drawingInfo
         except (TypeError, KeyError):
-            print(f"Spatial reference or drawing info not available for layer: {layer_name}. Skipping.")
+            logging.warning(f"Spatial reference or drawing info not available for layer: {layer_name}. Skipping.")
             continue
         
-        print(f"Processing layer: {layer_name}")  # Debug print
-        print(sdf.head())  # Debug print to show dataframe structure
+        logging.info(f"Processing layer: {layer_name}")
+        logging.info(sdf.head())
         
         if sdf.empty:
-            print(f"No data found for layer: {layer_name}")
+            logging.warning(f"No data found for layer: {layer_name}")
             continue
         
-        table_name = sanitize_table_name(layer_name)  # Sanitize table name
+        table_name = sanitize_table_name(layer_name)
         
         if not check_table_exists(table_name):
             create_table_from_dataframe(table_name, sdf)
