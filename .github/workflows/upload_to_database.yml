@@ -3,8 +3,7 @@ name: Fetch and Process Metadata
 on:
   push:
     paths:
-      - '**/*.py'
-      - 'requirements.txt'
+      - 'upload_to_cockroachdb.py'
 
 jobs:
   build:
