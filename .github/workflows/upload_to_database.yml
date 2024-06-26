@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'upload_to_cockroachdb.py'
+      - 'added_layers.json'
 
 jobs:
   build:
