@@ -23,8 +23,8 @@ places_gdf = ox.features_from_polygon(county_polygon, tags=tags)
 places_gdf = places_gdf[places_gdf.geometry.within(county_polygon)]
 place_names_script = set([name for name in places_gdf['name'] if isinstance(name, str)])
 
-# Function to get the root URL from a service URL
 def get_root_url(service_url):
+    """Extracts the root URL from a given service URL."""
     parsed_url = urlparse(service_url)
     path_segments = parsed_url.path.split('/')
     try:
@@ -36,24 +36,27 @@ def get_root_url(service_url):
     except (ValueError, IndexError):
         return urlunparse(parsed_url._replace(path=''))
 
-# Initialize an empty set to store unique servers
-unique_servers = set()
+def search_for_servers(search_terms):
+    """Searches for servers based on a list of search terms."""
+    servers = set()
+    for term in search_terms:
+        print(f"Searching for: {term}")
+        try:
+            search_results = gis.content.advanced_search(query=term + " Los Angeles County", max_items=15)
+            for item in search_results['results']:
+                try:
+                    url = item.url
+                    if url:
+                        root_url = get_root_url(url)
+                        servers.add(root_url)
+                except AttributeError:
+                    continue  # Skip items that might not have a URL
+        except Exception as e:
+            print(f"Error searching for {term}: {str(e)}")
+    return servers
 
 # Perform individual searches for each place name
-for place_name in place_names_script:
-    print(f"Searching for: {place_name}")
-    try:
-        search_results = gis.content.advanced_search(query=place_name, max_items=3)
-        for item in search_results['results']:
-            try:
-                url = item.url
-                if url:
-                    root_url = get_root_url(url)
-                    unique_servers.add(root_url)
-            except AttributeError:
-                continue  # Skip items that might not have a URL
-    except Exception as e:
-        print(f"Error searching for {place_name}: {str(e)}")
+unique_servers = search_for_servers(place_names_script)
 
 # Additional searches for broader terms
 additional_search_terms = [
@@ -63,20 +66,7 @@ additional_search_terms = [
     "usa electricity transmission lines"
 ]
 
-for term in additional_search_terms:
-    print(f"Searching for: {term}")
-    try:
-        search_results = gis.content.advanced_search(query=term, max_items=3)
-        for item in search_results['results']:
-            try:
-                url = item.url
-                if url:
-                    root_url = get_root_url(url)
-                    unique_servers.add(root_url)
-            except AttributeError:
-                continue  # Skip items that might not have a URL
-    except Exception as e:
-        print(f"Error searching for {term}: {str(e)}")
+unique_servers.update(search_for_servers(additional_search_terms))
 
 # Print or process the unique servers
 print("Unique Root Servers Found:")
@@ -85,6 +75,7 @@ for server in unique_servers:
     print(server)
 
 # Save unique servers to a file
-with open('servers.txt', 'w') as f:
+output_file = 'servers.txt'
+with open(output_file, 'w') as f:
     for server in unique_servers:
         f.write(server + '\n')
