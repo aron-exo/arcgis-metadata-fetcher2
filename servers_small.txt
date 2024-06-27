@@ -1,1 +1,1 @@
-https://services7.arcgis.com/s0TOlddGQLc5iPOd/ArcGIS/rest/services/LAC2_WFL1/FeatureServer/0
+https://services7.arcgis.com/s0TOlddGQLc5iPOd/ArcGIS/rest/services/LAC2_WFL1/FeatureServer
