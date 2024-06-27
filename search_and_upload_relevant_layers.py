@@ -141,7 +141,7 @@ else:
 print(f"WebMap created or updated with ID: {webmap_item.id}")
 
 # Save the list of added layers with URLs
-with open('added_layers.json', 'w') as f:
+with open('all_server_responses.json.json', 'w') as f:
     json.dump(layers_for_webmap, f, indent=4)
 
 print("Added layers saved to added_layers.json")
