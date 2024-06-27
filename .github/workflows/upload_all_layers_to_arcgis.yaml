@@ -46,6 +46,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git pull origin main
-          git commit -m 'Update metadata and added layers'
+          git add .
+          git commit -m 'Upload all layers to Arcgis'
+          git pull --rebase origin main
           git push origin main
