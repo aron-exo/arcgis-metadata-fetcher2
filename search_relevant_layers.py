@@ -4,6 +4,7 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import osmnx as ox
 
+
 # Example list of utility-related keywords
 utility_keywords = [
     "diameter", "sewage", "sewer", "gas", "natural gas",
