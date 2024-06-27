@@ -6,7 +6,7 @@ from multiprocessing import Pool, cpu_count
 from urllib.parse import urljoin
 
 # Load unique servers from file
-with open('servers_small.txt', 'r') as f:
+with open('servers.txt', 'r') as f:
     unique_servers = [line.strip() for line in f.readlines()]
 
 # Function to get the list of folders and services
