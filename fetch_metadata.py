@@ -125,7 +125,7 @@ async def main():
     Main function to process all servers listed in 'servers.txt'.
     """
     if os.path.exists('servers_small.txt'):
-        with open('servers.txt', 'r') as f:
+        with open('servers_small.txt', 'r') as f:
             servers = [line.strip() for line in f.readlines()]
 
         all_metadata = []
