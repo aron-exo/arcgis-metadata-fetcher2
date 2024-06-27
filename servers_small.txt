@@ -1,1 +1,1 @@
-https://services6.arcgis.com/mfr5GsRh8UYwsJgO/ArcGIS/rest/services
+https://claremont.maps.arcgis.com?appid=545e1f1a31474fe6ac3148c48db13c8d&webmap=30b00760dfae4ebdbc6ae9c962419e85
