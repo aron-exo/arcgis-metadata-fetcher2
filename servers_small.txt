@@ -1,1 +1,1 @@
-https://services7.arcgis.com//xi4Jdz3OMjSHQW0E/arcgis/rest/services/
+https://services7.arcgis.com/s0TOlddGQLc5iPOd/ArcGIS/rest/services/
