@@ -5,7 +5,8 @@ on:
     paths:
       - 'fetch_metadata.py'
       - 'servers.txt'
-
+      - 'servers_small.txt'
+      
 jobs:
   build:
     runs-on: ubuntu-latest
