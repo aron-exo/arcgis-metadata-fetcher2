@@ -24,17 +24,17 @@ places_gdf = places_gdf[places_gdf.geometry.within(county_polygon)]
 place_names_script = set([name for name in places_gdf['name'] if isinstance(name, str)])
 
 def get_root_url(service_url):
-    """Extracts the root URL from a given service URL."""
+    """Extracts the root URL from a given service URL and ensures no double slashes."""
     parsed_url = urlparse(service_url)
     path_segments = parsed_url.path.split('/')
     try:
         rest_index = path_segments.index('rest')
         services_index = path_segments.index('services', rest_index)
-        new_path = '/' + '/'.join(path_segments[:services_index + 1]) + '/'
+        new_path = '/' + '/'.join(filter(None, path_segments[:services_index + 1])) + '/'
         new_parsed_url = parsed_url._replace(path=new_path)
         return urlunparse(new_parsed_url)
     except (ValueError, IndexError):
-        return urlunparse(parsed_url._replace(path=''))
+        return urlunparse(parsed_url._replace(path='/'.join(filter(None, parsed_url.path.split('/')))))
 
 def search_for_servers(search_terms):
     """Searches for servers based on a list of search terms."""
@@ -42,7 +42,7 @@ def search_for_servers(search_terms):
     for term in search_terms:
         print(f"Searching for: {term}")
         try:
-            search_results = gis.content.advanced_search(query=term + " Los Angeles County", max_items=15)
+            search_results = gis.content.advanced_search(query=term + " Los Angeles County", max_items=50)
             for item in search_results['results']:
                 try:
                     url = item.url
