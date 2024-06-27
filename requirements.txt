@@ -6,3 +6,6 @@ geopandas
 numpy
 shapely
 psycopg2
+nest_asyncio
+tenacity
+beautifulsoup4
