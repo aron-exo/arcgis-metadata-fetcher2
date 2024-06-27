@@ -8,7 +8,6 @@ from arcgis.geometry.filters import intersects
 import os
 import osmnx as ox
 
-
 # Load the list of layers from the JSON file
 with open('added_layers.json', 'r') as f:
     layers_for_webmap = json.load(f)
