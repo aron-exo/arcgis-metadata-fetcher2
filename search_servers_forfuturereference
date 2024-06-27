@@ -1,0 +1,97 @@
+import osmnx as ox
+import geopandas as gpd
+from arcgis.gis import GIS
+from urllib.parse import urlparse, urlunparse
+from tqdm import tqdm
+import os
+
+# Initialize the GIS
+username = os.getenv('USERNAME')
+password = os.getenv('PASSWORD')
+gis = GIS("https://www.arcgis.com", username, password)
+
+# Define the state of interest
+state_name = "California, USA"
+
+# Get the boundary of the state
+state_gdf = ox.geocode_to_gdf(state_name)
+state_polygon = state_gdf.loc[0, 'geometry']
+
+# Get the boundaries of all counties within the state
+county_tags = {'place': ['county']}
+counties_gdf = ox.geometries_from_polygon(state_polygon, county_tags)
+counties_gdf = counties_gdf[counties_gdf['geometry'].apply(lambda x: x.within(state_polygon))]
+county_names = counties_gdf['name'].unique()
+
+# Initialize a dictionary to store counties and their respective cities/towns
+geographic_data = {}
+
+# Get the boundaries of all cities/towns within each county
+city_tags = {'place': ['city', 'town']}
+for county_name in tqdm(county_names, desc="Processing counties"):
+    county_polygon = counties_gdf[counties_gdf['name'] == county_name].iloc[0].geometry
+    cities_gdf = ox.geometries_from_polygon(county_polygon, city_tags)
+    cities_gdf = cities_gdf[cities_gdf['geometry'].apply(lambda x: x.within(county_polygon))]
+    city_names = cities_gdf['name'].unique()
+    geographic_data[county_name] = city_names
+
+def get_root_url(service_url):
+    """Extracts the root URL from a given service URL."""
+    parsed_url = urlparse(service_url)
+    path_segments = parsed_url.path.split('/')
+    try:
+        rest_index = path_segments.index('rest')
+        services_index = path_segments.index('services', rest_index)
+        new_path = '/' + '/'.join(path_segments[:services_index + 1]) + '/'
+        new_parsed_url = parsed_url._replace(path=new_path)
+        return urlunparse(new_parsed_url)
+    except (ValueError, IndexError):
+        return urlunparse(parsed_url._replace(path=''))
+
+def search_for_servers(search_terms):
+    """Searches for servers based on a list of search terms."""
+    servers = set()
+    for term in tqdm(search_terms, desc="Searching terms"):
+        print(f"Searching for: {term}")
+        try:
+            search_results = gis.content.advanced_search(query=term, max_items=3)
+            for item in search_results['results']:
+                try:
+                    url = item.url
+                    if url:
+                        root_url = get_root_url(url)
+                        servers.add(root_url)
+                except AttributeError:
+                    continue  # Skip items that might not have a URL
+        except Exception as e:
+            print(f"Error searching for {term}: {str(e)}")
+    return servers
+
+# Initialize an empty set to store unique servers
+unique_servers = set()
+
+# Perform searches for each county and its cities/towns
+for county, cities in tqdm(geographic_data.items(), desc="Processing geographic data"):
+    # Search for the county alone
+    unique_servers.update(search_for_servers([county + ", " + state_name]))
+
+    # Search for each city in the county
+    unique_servers.update(search_for_servers([city + ", " + county + ", " + state_name for city in tqdm(cities, desc=f"Processing cities in {county}")]))
+
+
+# Perform a separate search for the entire state
+unique_servers.update(search_for_servers([state_name]))
+
+# Print or process the unique servers
+print("Unique Root Servers Found:")
+print(len(unique_servers))
+for server in unique_servers:
+    print(server)
+
+# Save unique servers to a file
+output_file = 'servers.txt'
+with open(output_file, 'w') as f:
+    for server in unique_servers:
+        f.write(server + '\n')
+
+print(f"Unique servers saved to {output_file}")
