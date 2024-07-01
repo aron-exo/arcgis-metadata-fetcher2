@@ -5,6 +5,7 @@ from arcgis.geocoding import reverse_geocode
 from urllib.parse import urlparse, urlunparse
 import os
 
+
 # Initialize the GIS
 gis = GIS("https://www.arcgis.com", os.getenv('USERNAME'), os.getenv('PASSWORD'))
 
