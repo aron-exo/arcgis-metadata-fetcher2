@@ -11,9 +11,15 @@ nest_asyncio.apply()
 
 logging.basicConfig(level=logging.INFO)
 
-# Define the file path
+# Define the file paths
 SERVERS_FILE_PATH = 'servers.txt'
 OUTPUT_FILE_PATH = 'all_server_responses.json'
+
+ALLOWED_GEOMETRY_TYPES = [
+    'esriGeometryPolyline',
+    'esriGeometryPoint',
+    'esriGeometryMultipoint'
+]
 
 def normalize_url(url):
     # Remove duplicate slashes but keep the "http://" or "https://"
@@ -31,7 +37,7 @@ async def fetch(session, url):
                 history=response.history
             )
         data = await response.json()
-        logging.info(f"Data fetched from {url}: {data}")
+        logging.info(f"Data fetched from {url}")
         return data
 
 @retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
@@ -48,9 +54,12 @@ async def get_layer_metadata(session, layer_url):
     geometry_type = layer_metadata.get('geometryType', 'Unknown')
     layer_name = layer_metadata.get('name', 'No name available')
     
+    if geometry_type not in ALLOWED_GEOMETRY_TYPES:
+        return None
+
     return {
         'layer_name': layer_name,
-        'fields': [field['name'] for field in fields],
+        'fields': [field['name'] for field in fields] if fields else [],
         'description': description,
         'geometry_type': geometry_type,
         'url': layer_url
@@ -59,8 +68,11 @@ async def get_layer_metadata(session, layer_url):
 async def get_service_details(session, base_url, service):
     service_name = service['name']
     service_type = service['type']
-    url = normalize_url(f"{base_url}/{service_name}/{service_type}?f=json")
-    service_metadata = await fetch(session, url)
+    if service_type not in ["FeatureServer", "MapServer"]:
+        return None
+    
+    service_url = normalize_url(f"{base_url}/{service_name}/{service_type}?f=json")
+    service_metadata = await fetch(session, service_url)
 
     tasks = []
     for layer in service_metadata.get('layers', []):
@@ -68,45 +80,78 @@ async def get_service_details(session, base_url, service):
         tasks.append(get_layer_metadata(session, layer_url))
     
     details = await asyncio.gather(*tasks)
+    details = [detail for detail in details if detail]  # Remove None values
+    return {
+        'service_name': service_name,
+        'service_type': service_type,
+        'layers': details
+    }
+
+async def process_folder(session, base_url, folder_path):
+    folder_url = normalize_url(f"{base_url}/{folder_path}")
+    folders_and_services = await get_folders_and_services(session, folder_url)
     
-    # Filter layers based on geometry type
-    valid_geometry_types = {'esriGeometryPoint', 'esriGeometryMultipoint', 'esriGeometryPolyline'}
-    filtered_details = [detail for detail in details if detail['geometry_type'] in valid_geometry_types]
+    results = {
+        'folder_name': folder_path.split('/')[-1],  # Get the last part of the path as the folder name
+        'services': [],
+        'subfolders': []
+    }
     
-    return filtered_details
+    # Process services
+    services = folders_and_services.get('services', [])
+    for service in services:
+        service_details = await get_service_details(session, base_url, service)
+        if service_details:
+            results['services'].append(service_details)
+    
+    # Process subfolders
+    subfolders = folders_and_services.get('folders', [])
+    for subfolder in subfolders:
+        subfolder_path = f"{folder_path}/{subfolder}"
+        subfolder_details = await process_folder(session, base_url, subfolder_path)
+        results['subfolders'].append(subfolder_details)
+    
+    return results
 
-async def process_server(session, url, results):
-    try:
-        folders_and_services = await get_folders_and_services(session, normalize_url(url))
-        logging.info(f"Fetched data: {folders_and_services}")
-
-        if not folders_and_services:
-            raise ValueError("No metadata fetched")
-        
-        services = folders_and_services.get('services', [])
-        tasks = []
-        for service in services:
-            tasks.append(get_service_details(session, url, service))
-        
-        service_details_list = await asyncio.gather(*tasks)
-        for service_details in service_details_list:
-            results.extend(service_details)
-
-    except Exception as e:
-        logging.error(f"Error processing server {url}: {e}")
+async def process_server(session, base_url):
+    results = {
+        'services': [],
+        'folders': []
+    }
+    
+    folders_and_services = await get_folders_and_services(session, base_url)
+    
+    # Process root services
+    services = folders_and_services.get('services', [])
+    for service in services:
+        service_details = await get_service_details(session, base_url, service)
+        if service_details:
+            results['services'].append(service_details)
+    
+    # Process folders
+    folders = folders_and_services.get('folders', [])
+    tasks = [process_folder(session, base_url, folder) for folder in folders]
+    folder_details = await asyncio.gather(*tasks)
+    results['folders'].extend(folder_details)
+    
+    return results
 
 async def main():
     async with aiohttp.ClientSession() as session:
         with open(SERVERS_FILE_PATH, 'r') as file:
             servers = [normalize_url(line.strip()) for line in file if line.strip()]
         
-        results = []
-        tasks = [process_server(session, server, results) for server in servers]
-        await asyncio.gather(*tasks)
+        all_results = {}
+        for server in servers:
+            try:
+                server_results = await process_server(session, server)
+                all_results[server] = server_results
+            except Exception as e:
+                logging.error(f"Error processing server {server}: {e}")
 
-        # Save the results list to a single JSON file
+        # Save the results to a JSON file
         with open(OUTPUT_FILE_PATH, 'w') as f:
-            json.dump(results, f, indent=4)
+            json.dump(all_results, f, indent=4)
         logging.info(f"Saved all responses to: {OUTPUT_FILE_PATH}")
 
 if __name__ == '__main__':
