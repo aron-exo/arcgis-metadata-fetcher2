@@ -68,7 +68,12 @@ async def get_service_details(session, base_url, service):
         tasks.append(get_layer_metadata(session, layer_url))
     
     details = await asyncio.gather(*tasks)
-    return details
+    
+    # Filter layers based on geometry type
+    valid_geometry_types = {'esriGeometryPoint', 'esriGeometryMultipoint', 'esriGeometryPolyline'}
+    filtered_details = [detail for detail in details if detail['geometry_type'] in valid_geometry_types]
+    
+    return filtered_details
 
 async def process_server(session, url, results):
     try:
@@ -81,8 +86,7 @@ async def process_server(session, url, results):
         services = folders_and_services.get('services', [])
         tasks = []
         for service in services:
-            if service['type'] == 'FeatureServer':
-                tasks.append(get_service_details(session, url, service))
+            tasks.append(get_service_details(session, url, service))
         
         service_details_list = await asyncio.gather(*tasks)
         for service_details in service_details_list:
