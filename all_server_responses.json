@@ -2,11 +2,6 @@
     "https://maps.lacity.org/lahub/rest/services": {
         "services": [
             {
-                "service_name": "Boundaries",
-                "service_type": "MapServer",
-                "layers": []
-            },
-            {
                 "service_name": "BuildLAAH_Testing",
                 "service_type": "MapServer",
                 "layers": [
@@ -331,11 +326,6 @@
                 ]
             },
             {
-                "service_name": "Census_2010",
-                "service_type": "MapServer",
-                "layers": []
-            },
-            {
                 "service_name": "City_Planning_Department",
                 "service_type": "MapServer",
                 "layers": [
@@ -357,11 +347,6 @@
                         "url": "https://maps.lacity.org/lahub/rest/services/City_Planning_Department/MapServer/3"
                     }
                 ]
-            },
-            {
-                "service_name": "DWP",
-                "service_type": "MapServer",
-                "layers": []
             },
             {
                 "service_name": "Fire_Department",
@@ -1217,11 +1202,6 @@
                         "url": "https://maps.lacity.org/lahub/rest/services/LAUSD_Schools/MapServer/1"
                     }
                 ]
-            },
-            {
-                "service_name": "Maps_and_Indices",
-                "service_type": "MapServer",
-                "layers": []
             },
             {
                 "service_name": "Mayors_Office",
@@ -2910,11 +2890,6 @@
                 ]
             },
             {
-                "service_name": "Special_Areas",
-                "service_type": "MapServer",
-                "layers": []
-            },
-            {
                 "service_name": "Stormwater_Information",
                 "service_type": "MapServer",
                 "layers": [
@@ -4060,21 +4035,6 @@
                 "folder_name": "Annotation",
                 "services": [
                     {
-                        "service_name": "Annotation/dimensions",
-                        "service_type": "MapServer",
-                        "layers": []
-                    },
-                    {
-                        "service_name": "Annotation/easementhistorical",
-                        "service_type": "MapServer",
-                        "layers": []
-                    },
-                    {
-                        "service_name": "Annotation/housenumbers",
-                        "service_type": "MapServer",
-                        "layers": []
-                    },
-                    {
                         "service_name": "Annotation/parcellegal",
                         "service_type": "MapServer",
                         "layers": [
@@ -4119,11 +4079,6 @@
                         ]
                     }
                 ],
-                "subfolders": []
-            },
-            {
-                "folder_name": "Utilities",
-                "services": [],
                 "subfolders": []
             }
         ]
@@ -4317,24 +4272,9 @@
                         "url": "https://mapserver.cityofpalmdale.org/arcgis/rest/services/Lucity_cctv_Map/MapServer/4"
                     }
                 ]
-            },
-            {
-                "service_name": "Map",
-                "service_type": "MapServer",
-                "layers": []
-            },
-            {
-                "service_name": "Parks_Pavillions",
-                "service_type": "MapServer",
-                "layers": []
             }
         ],
         "folders": [
-            {
-                "folder_name": "AddressLocator",
-                "services": [],
-                "subfolders": []
-            },
             {
                 "folder_name": "DamageAssessment2023",
                 "services": [
@@ -4482,16 +4422,6 @@
                                 "url": "https://mapserver.cityofpalmdale.org/arcgis/rest/services/General/2022_GP_LU/MapServer/9"
                             }
                         ]
-                    },
-                    {
-                        "service_name": "General/_2022_GP_LU",
-                        "service_type": "FeatureServer",
-                        "layers": []
-                    },
-                    {
-                        "service_name": "General/_2022_GP_LU",
-                        "service_type": "MapServer",
-                        "layers": []
                     },
                     {
                         "service_name": "General/Accela_Map",
@@ -4896,16 +4826,6 @@
                                 "url": "https://mapserver.cityofpalmdale.org/arcgis/rest/services/General/Drainage_Map/MapServer/2"
                             }
                         ]
-                    },
-                    {
-                        "service_name": "General/Fire_Hazard",
-                        "service_type": "FeatureServer",
-                        "layers": []
-                    },
-                    {
-                        "service_name": "General/Fire_Hazard",
-                        "service_type": "MapServer",
-                        "layers": []
                     },
                     {
                         "service_name": "General/Land_Development",
@@ -5605,16 +5525,6 @@
                         ]
                     },
                     {
-                        "service_name": "General/Parks",
-                        "service_type": "FeatureServer",
-                        "layers": []
-                    },
-                    {
-                        "service_name": "General/Parks",
-                        "service_type": "MapServer",
-                        "layers": []
-                    },
-                    {
                         "service_name": "General/Schools",
                         "service_type": "FeatureServer",
                         "layers": [
@@ -5666,16 +5576,6 @@
                                 "url": "https://mapserver.cityofpalmdale.org/arcgis/rest/services/General/Schools/MapServer/0"
                             }
                         ]
-                    },
-                    {
-                        "service_name": "General/Sewer_Grid_Sheet",
-                        "service_type": "FeatureServer",
-                        "layers": []
-                    },
-                    {
-                        "service_name": "General/Sewer_Grid_Sheet",
-                        "service_type": "MapServer",
-                        "layers": []
                     },
                     {
                         "service_name": "General/St_Subsegment",
@@ -5735,16 +5635,6 @@
                                 "url": "https://mapserver.cityofpalmdale.org/arcgis/rest/services/General/St_Subsegment/MapServer/0"
                             }
                         ]
-                    },
-                    {
-                        "service_name": "General/Street_Sweeping_Zones",
-                        "service_type": "FeatureServer",
-                        "layers": []
-                    },
-                    {
-                        "service_name": "General/Street_Sweeping_Zones",
-                        "service_type": "MapServer",
-                        "layers": []
                     },
                     {
                         "service_name": "General/Tool_Map",
@@ -6021,22 +5911,6 @@
                 "subfolders": []
             },
             {
-                "folder_name": "GoGov",
-                "services": [
-                    {
-                        "service_name": "GoGov/GoGovSpatialData",
-                        "service_type": "MapServer",
-                        "layers": []
-                    }
-                ],
-                "subfolders": []
-            },
-            {
-                "folder_name": "Internal_Data",
-                "services": [],
-                "subfolders": []
-            },
-            {
                 "folder_name": "Lucity",
                 "services": [
                     {
@@ -6075,11 +5949,6 @@
                         ]
                     },
                     {
-                        "service_name": "Lucity/Basins",
-                        "service_type": "MapServer",
-                        "layers": []
-                    },
-                    {
                         "service_name": "Lucity/Catch_Basins",
                         "service_type": "MapServer",
                         "layers": [
@@ -6111,11 +5980,6 @@
                                 "url": "https://mapserver.cityofpalmdale.org/arcgis/rest/services/Lucity/Catch_Basins/MapServer/2"
                             }
                         ]
-                    },
-                    {
-                        "service_name": "Lucity/City_Parks",
-                        "service_type": "MapServer",
-                        "layers": []
                     },
                     {
                         "service_name": "Lucity/Crosswalk",
@@ -6339,16 +6203,6 @@
                                 "url": "https://mapserver.cityofpalmdale.org/arcgis/rest/services/Lucity/Housing_Sewer_Map/MapServer/5"
                             }
                         ]
-                    },
-                    {
-                        "service_name": "Lucity/LMD_Sections",
-                        "service_type": "MapServer",
-                        "layers": []
-                    },
-                    {
-                        "service_name": "Lucity/LMD",
-                        "service_type": "MapServer",
-                        "layers": []
                     },
                     {
                         "service_name": "Lucity/Lucity_Sewer_Lines",
@@ -6597,11 +6451,6 @@
                                 "url": "https://mapserver.cityofpalmdale.org/arcgis/rest/services/Lucity/Sign_Poles/MapServer/0"
                             }
                         ]
-                    },
-                    {
-                        "service_name": "Lucity/Sports_Infrastructure",
-                        "service_type": "MapServer",
-                        "layers": []
                     },
                     {
                         "service_name": "Lucity/Street_Lights",
@@ -7018,22 +6867,6 @@
                                 "url": "https://mapserver.cityofpalmdale.org/arcgis/rest/services/Public_Facilities/PublicFacilities/MapServer/4"
                             }
                         ]
-                    }
-                ],
-                "subfolders": []
-            },
-            {
-                "folder_name": "Street_Sweeping",
-                "services": [
-                    {
-                        "service_name": "Street_Sweeping/StreetSweeping",
-                        "service_type": "FeatureServer",
-                        "layers": []
-                    },
-                    {
-                        "service_name": "Street_Sweeping/StreetSweeping",
-                        "service_type": "MapServer",
-                        "layers": []
                     }
                 ],
                 "subfolders": []
