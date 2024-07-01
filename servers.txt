@@ -1,1 +1,1 @@
-https://mapserver.cityofpalmdale.org/arcgis/rest/services
+https://maps.lacity.org/lahub/rest/services
