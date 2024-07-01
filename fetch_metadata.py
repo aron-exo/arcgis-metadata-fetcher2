@@ -7,6 +7,7 @@ import re
 import nest_asyncio
 from bs4 import BeautifulSoup
 
+
 nest_asyncio.apply()
 
 logging.basicConfig(level=logging.INFO)
