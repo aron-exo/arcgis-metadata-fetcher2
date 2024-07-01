@@ -42,7 +42,7 @@ def search_for_servers(search_terms):
     for term in search_terms:
         print(f"Searching for: {term}")
         try:
-            search_results = gis.content.advanced_search(query=term + " Los Angeles County", max_items=10)
+            search_results = gis.content.advanced_search(query=term + " Los Angeles County", max_items=15)
             for item in search_results['results']:
                 try:
                     url = item.url
