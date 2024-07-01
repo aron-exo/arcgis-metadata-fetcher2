@@ -81,6 +81,10 @@ async def get_service_details(session, base_url, service):
     
     details = await asyncio.gather(*tasks)
     details = [detail for detail in details if detail]  # Remove None values
+
+    if not details:
+        return None
+
     return {
         'service_name': service_name,
         'service_type': service_type,
@@ -111,15 +115,18 @@ async def process_folder(session, base_url, folder_path):
         subfolder_details = await process_folder(session, base_url, subfolder_path)
         results['subfolders'].append(subfolder_details)
     
+    if not results['services'] and not results['subfolders']:
+        return None
+
     return results
 
 async def process_server(session, base_url):
+    folders_and_services = await get_folders_and_services(session, base_url)
+    
     results = {
         'services': [],
         'folders': []
     }
-    
-    folders_and_services = await get_folders_and_services(session, base_url)
     
     # Process root services
     services = folders_and_services.get('services', [])
@@ -132,8 +139,12 @@ async def process_server(session, base_url):
     folders = folders_and_services.get('folders', [])
     tasks = [process_folder(session, base_url, folder) for folder in folders]
     folder_details = await asyncio.gather(*tasks)
+    folder_details = [folder for folder in folder_details if folder]  # Remove None values
     results['folders'].extend(folder_details)
     
+    if not results['services'] and not results['folders']:
+        return None
+
     return results
 
 async def main():
@@ -145,7 +156,8 @@ async def main():
         for server in servers:
             try:
                 server_results = await process_server(session, server)
-                all_results[server] = server_results
+                if server_results:
+                    all_results[server] = server_results
             except Exception as e:
                 logging.error(f"Error processing server {server}: {e}")
 
